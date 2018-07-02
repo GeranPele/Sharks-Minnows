@@ -15,6 +15,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var scene: SCNScene!
     var targetNode: SCNNode!
     var minnow: Minnow!
+    var viewX: Float = 0.0
+    var viewY: Float = 0.0
+    var viewZ: Float = 0.0
+    var cameraNode: SCNNode!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +27,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         scene = SCNScene(named: "art.scnassets/Aquarium.scn")!
         
         // create and add a camera to the scene
-        let cameraNode = SCNNode()
+        cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 15, z: 35)
+        cameraNode.position = SCNVector3(x: 0, y: 30, z: 10)
+        cameraNode.look(at: SCNVector3Make(viewX, viewY, viewZ))
         scene.rootNode.addChildNode(cameraNode)
         
         
@@ -48,7 +53,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let targetGeo = SCNSphere(radius: 0.5)
         targetGeo.firstMaterial?.diffuse.contents = UIColor(displayP3Red: 0.0, green: 0.8, blue: 0.0, alpha: 0.8)
         targetNode = SCNNode(geometry: targetGeo)
-        targetNode.position = SCNVector3Make(3.0, 2.0, -6.0)
+        targetNode.position = SCNVector3Make(3.0, 5.0, 12.0)
         targetNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         scene.rootNode.addChildNode(targetNode)
         
@@ -59,6 +64,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         minnow.geometry = fishGeo
         minnow.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         minnow.physicsBody?.isAffectedByGravity = false
+        minnow.eulerAngles = SCNVector3Make(4.0, 0.0, 0.0)
         scene.rootNode.addChildNode(minnow)
         
         // retrieve the SCNView
@@ -85,11 +91,36 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        
+        //Camera viewport following for debuging:
+        viewX = minnow.presentation.position.x
+        viewY = minnow.presentation.position.y
+        viewZ = minnow.presentation.position.z
+        
+        var lerpX = (viewX - cameraNode.presentation.position.x) * 0.01
+        var lerpY = (viewY - cameraNode.presentation.position.y) * 0.01
+        var lerpZ = (viewZ - cameraNode.presentation.position.z) * 0.01
+        
+        //let constraint = SCNLookAtConstraint(target: minnow)
+        //cameraNode.constraints = [constraint]
+        
+        //cameraNode.position.x += lerpX
+        //cameraNode.position.y += lerpY
+        //cameraNode.position.z += lerpZ
+        
+        //cameraNode.position = SCNVector3(x: viewX,y: viewY,z: viewZ)
+        //cameraNode.look(at: cameraViewport)
+        
+        //Swift.print(cameraNode.position)
+        
+        //Forces:
         let force = minnow.seek(target: targetNode.position)
         //minnow.update()
         //Instantaneous application:
         minnow.physicsBody?.applyForce(force, asImpulse: true)
-       Swift.print(force)
+       //Swift.print(force)
+        
+        
     }
     
     @objc

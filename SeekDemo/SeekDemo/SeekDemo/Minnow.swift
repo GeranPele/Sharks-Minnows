@@ -31,6 +31,7 @@ class Minnow: SCNNode{
         maxSpeed = mass
         maxForce = mass / 20.0
         super.init()
+        position = origin
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -60,7 +61,10 @@ class Minnow: SCNNode{
     
     func seek(target: SCNVector3) -> SCNVector3{
         
-        var desired = target - position
+        //Presentation node!
+        //Utlilize look at constraints
+        
+        var desired = target - presentation.position
         
         desired.normalize()
         desired = desired * maxSpeed
@@ -70,6 +74,12 @@ class Minnow: SCNNode{
         steer.limit(mag: maxForce)
         
         return steer
+    }
+    
+    func heading() -> SCNVector3{
+        guard let pb = physicsBody else { return SCNVector3Make(0.0, 0.0, 0.0)}
+        let at = SCNVector3Make(presentation.position.x + pb.velocity.x, presentation.position.y + pb.velocity.y, presentation.position.z + pb.velocity.z)
+        return at
     }
 }
 
