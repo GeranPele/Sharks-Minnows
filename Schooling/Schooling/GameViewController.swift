@@ -55,7 +55,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let targetGeo = SCNSphere(radius: 0.5)
         targetGeo.firstMaterial?.diffuse.contents = UIColor(displayP3Red: 0.0, green: 0.8, blue: 0.0, alpha: 0.8)
         targetNode = SCNNode(geometry: targetGeo)
-        targetNode.position = SCNVector3Make(3.0, 5.0, 9.0)
+        targetNode.position = SCNVector3Make(3.0, 2.5, -9.0)
         targetNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         scene.rootNode.addChildNode(targetNode)
         
@@ -121,10 +121,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         for m in minnows{
         //Forces:
         let seekForce = m.seek(target: targetNode.position)
+        let alignForce = m.align(boids: minnows)
         //let summation = fleeForce
         //minnow.update()
         //Instantaneous application:
         m.physicsBody?.applyForce(seekForce, asImpulse: false)
+        m.physicsBody?.applyForce(alignForce, asImpulse: false)
         //Swift.print(force)
         }
         
