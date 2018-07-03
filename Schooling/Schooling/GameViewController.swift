@@ -12,10 +12,11 @@ import SceneKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
+    //Array of minnows!!
+    var minnows: [Minnow] = []
     var scene: SCNScene!
     var targetNode: SCNNode!
     var sharkNode: SCNNode!
-    var minnow: Minnow!
     var viewX: Float = 0.0
     var viewY: Float = 0.0
     var viewZ: Float = 0.0
@@ -58,22 +59,27 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         targetNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         scene.rootNode.addChildNode(targetNode)
         
+        /*
         let sharkGeo = SCNSphere(radius: 0.8)
         sharkGeo.firstMaterial?.diffuse.contents = UIColor(displayP3Red: 0.7, green: 0.2, blue: 0.2, alpha: 0.8)
         sharkNode = SCNNode(geometry: sharkGeo)
         sharkNode.position = SCNVector3Make(0.0, 5.0, -5.0)
         sharkNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         scene.rootNode.addChildNode(sharkNode)
+        */
         
+        for _ in 1...10{
         let fishGeo = SCNPyramid(width: 0.25, height: 0.25, length: 0.25)
         fishGeo.firstMaterial?.diffuse.contents = UIColor(displayP3Red: 0.8, green: 0.2, blue: 0.2, alpha: 1.0)
         let origin = SCNVector3Make(0.0, 5.0, 0.0)
-        minnow = Minnow(origin: origin)
+        let minnow = Minnow(origin: origin)
         minnow.geometry = fishGeo
         minnow.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         minnow.physicsBody?.isAffectedByGravity = false
         minnow.eulerAngles = SCNVector3Make(4.0, 0.0, 0.0)
+        minnows.append(minnow)
         scene.rootNode.addChildNode(minnow)
+        }
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -100,15 +106,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
-        //Camera viewport following for debuging:
-        viewX = minnow.presentation.position.x
-        viewY = minnow.presentation.position.y
-        viewZ = minnow.presentation.position.z
-        
-        var lerpX = (viewX - cameraNode.presentation.position.x) * 0.01
-        var lerpY = (viewY - cameraNode.presentation.position.y) * 0.01
-        var lerpZ = (viewZ - cameraNode.presentation.position.z) * 0.01
-        
         //let constraint = SCNLookAtConstraint(target: minnow)
         //cameraNode.constraints = [constraint]
         
@@ -121,16 +118,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         //Swift.print(cameraNode.position)
         
+        for m in minnows{
         //Forces:
-        let seekForce = minnow.seek(target: targetNode.position)
-        let fleeForce = minnow.flee(target: sharkNode.position)
+        let seekForce = m.seek(target: targetNode.position)
         //let summation = fleeForce
         //minnow.update()
         //Instantaneous application:
-        minnow.physicsBody?.applyForce(seekForce, asImpulse: false)
-        minnow.physicsBody?.applyForce(fleeForce, asImpulse: false)
+        m.physicsBody?.applyForce(seekForce, asImpulse: false)
         //Swift.print(force)
-        
+        }
         
     }
     
@@ -142,35 +138,35 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         // check what nodes are tapped
         let p = gestureRecognize.location(in: scnView)
         /*
-        let hitResults = scnView.hitTest(p, options: [:])
-        // check that we clicked on at least one object
-        if hitResults.count > 0 {
-            // retrieved the first clicked object
-            let result = hitResults[0]
-            
-            // get its material
-            let material = result.node.geometry!.firstMaterial!
-            
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.5
-            
-            // on completion - unhighlight
-            SCNTransaction.completionBlock = {
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = 0.5
-                
-                material.emission.contents = UIColor.black
-                
-                SCNTransaction.commit()
-            }
-            
-            material.emission.contents = UIColor.red
- 
-            */
-            SCNTransaction.commit()
-            }
-
+         let hitResults = scnView.hitTest(p, options: [:])
+         // check that we clicked on at least one object
+         if hitResults.count > 0 {
+         // retrieved the first clicked object
+         let result = hitResults[0]
+         
+         // get its material
+         let material = result.node.geometry!.firstMaterial!
+         
+         // highlight it
+         SCNTransaction.begin()
+         SCNTransaction.animationDuration = 0.5
+         
+         // on completion - unhighlight
+         SCNTransaction.completionBlock = {
+         SCNTransaction.begin()
+         SCNTransaction.animationDuration = 0.5
+         
+         material.emission.contents = UIColor.black
+         
+         SCNTransaction.commit()
+         }
+         
+         material.emission.contents = UIColor.red
+         
+         */
+        SCNTransaction.commit()
+    }
+    
     
     override var shouldAutorotate: Bool {
         return true
@@ -194,4 +190,5 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     }
     
 }
+
 
