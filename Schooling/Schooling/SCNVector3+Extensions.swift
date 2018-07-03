@@ -18,6 +18,20 @@ import SceneKit
 
 extension SCNVector3 {
     
+    //Adds a magnitude member to the SCNVector3 class
+    public var magnitude: Float {
+        get{
+            
+            return sqrt((x * x)+(y * y)+(z * z))
+        }
+        set {
+            normalize()
+            x = x * newValue
+            y = y * newValue
+            z = z * newValue
+        }
+    }
+    
     /**
      Inverts vector
      */

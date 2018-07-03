@@ -45,6 +45,7 @@ class Minnow: SCNNode{
         acceleration = acceleration + f
     }
     
+    //Not necessary??
     func update(){
         
         guard let pb = physicsBody else { return }
@@ -123,7 +124,7 @@ class Minnow: SCNNode{
             var steer: SCNVector3 = sum - pb.velocity
             steer.limit(mag: maxForce)
             
-            steer *= 1.5
+            //steer *= 1.5
             
             return steer
         }else{
@@ -131,20 +132,78 @@ class Minnow: SCNNode{
         }
     }
     
+    func cohesion(boids: [Minnow]) -> SCNVector3{
+        
+        let neighborDistance: Float = 15.0
+        var sum: SCNVector3 = SCNVector3Make(0.0, 0.0, 0.0)
+        var count: Int = 0
+        
+        for minnow in boids {
+            
+            let d = position.distance(toVector: minnow.presentation.position)
+            
+            if((d > 0) && (d < neighborDistance)){
+                sum = sum + minnow.presentation.position
+                count += 1
+            }
+        }
+        
+        if(count > 0){
+            sum = sum / Float(count)
+            
+            //sum *= 0.0
+            
+            return seek(target: sum)
+        } else {
+            return SCNVector3Make(0.0, 0.0, 0.0)
+        }
+    }
+    
+    func separate(boids: [Minnow]) -> SCNVector3{
+        
+        var steer: SCNVector3 = SCNVector3Make(0.0, 0.0, 0.0)
+        let desiredSeparation: Float = 10.0
+        var sum: SCNVector3 = SCNVector3Make(0.0, 0.0, 0.0)
+        var count: Int = 0
+        
+        for minnow in boids {
+            
+            let d = position.distance(toVector: minnow.presentation.position)
+            
+            if((d > 0) && (d < desiredSeparation)){
+                
+                var difference: SCNVector3 = position - minnow.presentation.position
+                
+                difference.normalize()
+                difference = difference / d
+                sum = sum + difference
+                count += 1
+            }
+        }
+        
+        if(count > 0){
+            sum.magnitude = maxSpeed
+            steer = sum - velocity
+            steer.limit(mag: maxForce)
+        }
+        return steer
+    }
+    
     func flock(boids: [Minnow]){
         
-        //var separate: SCNVector3 = self.separate(boids: boids)
+        var separate: SCNVector3 = self.separate(boids: boids)
         var align: SCNVector3 = self.align(boids: boids)
-        //var cohesion: SCNVector3 = self.cohesion(boids: boids)
+        var cohesion: SCNVector3 = self.cohesion(boids: boids)
         
         //Weight behaviors:
-        //separate = separate * 1.2
-        align = align * 1.1
-        //cohesion = cohesion * 1.0
+        separate *=  1.5
+        align *= 1.1
+        cohesion *= 1.0
         
-        //applyForce(force: separate)
-        //applyForce(force: align)
-        //applyForce(force: cohesion)
+        
+        physicsBody?.applyForce(align, asImpulse: true)
+        physicsBody?.applyForce(cohesion, asImpulse: true)
+        physicsBody?.applyForce(separate, asImpulse: true)
     }
     
     func heading() -> SCNVector3{
