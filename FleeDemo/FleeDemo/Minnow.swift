@@ -83,10 +83,12 @@ class Minnow: SCNNode{
         //Work on limit desired function:
         //desired = limitDesired(target: desired, d: desired.magnitude)
         
+        guard let pb = physicsBody else { return SCNVector3Make(0, 0, 0) }
+        var steer: SCNVector3 = desired - pb.velocity
+        
         desired.normalize()
         desired = desired * maxSpeed
         
-        var steer: SCNVector3 = desired - velocity
         steer.limit(mag: maxForce)
         
         return steer
@@ -98,4 +100,5 @@ class Minnow: SCNNode{
         return at
     }
 }
+
 
