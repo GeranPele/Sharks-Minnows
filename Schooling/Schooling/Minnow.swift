@@ -29,7 +29,7 @@ class Minnow: SCNNode{
         acceleration = SCNVector3Make(0.0, 0.0, 0.0)
         mass = 1.0
         maxSpeed = mass
-        maxForce = mass / 20.0
+        maxForce = mass / 10.0
         super.init()
         position = origin
     }
@@ -61,6 +61,32 @@ class Minnow: SCNNode{
     }
     
     //LimitDesired!!
+    /*
+    func limitDesired(target: SCNVector3, d: Float) -> SCNVector3{
+        
+        let a: Float = SCNVector3.angleBetween(v1: velocity, v2: target)
+        
+        var desired: SCNVector3 = target
+        
+        let piDiv2: Float = Float(Double.pi) / 3.0
+        
+        if(abs(a) > piDiv2){
+            
+            var desiredHeading: Float = 0
+            
+            if(a > 0){
+                
+                desiredHeading = velocity.heading() + piDiv2
+            } else {
+                desiredHeading = velocity.heading() - piDiv2
+            }
+            
+            desired.rotate(theta: desiredHeading)
+            desired.magnitude = d
+        }
+        return desired
+    }
+    */
     
     func seek(target: SCNVector3) -> SCNVector3{
         
@@ -196,20 +222,36 @@ class Minnow: SCNNode{
         var cohesion: SCNVector3 = self.cohesion(boids: boids)
         
         //Weight behaviors:
-        separate *=  1.5
-        align *= 1.1
+        separate *=  1.0
+        align *= 0.5
         cohesion *= 1.0
         
         
-        physicsBody?.applyForce(align, asImpulse: true)
-        physicsBody?.applyForce(cohesion, asImpulse: true)
-        physicsBody?.applyForce(separate, asImpulse: true)
+        physicsBody?.applyForce(align, asImpulse: false)
+        physicsBody?.applyForce(cohesion, asImpulse: false)
+        physicsBody?.applyForce(separate, asImpulse: false)
     }
     
     func heading() -> SCNVector3{
         guard let pb = physicsBody else { return SCNVector3Make(0.0, 0.0, 0.0)}
         let at = SCNVector3Make(presentation.position.x + pb.velocity.x, presentation.position.y + pb.velocity.y, presentation.position.z + pb.velocity.z)
         return at
+    }
+    
+    func heading() {
+        
+        guard let pb = physicsBody else { return }
+        
+        let dx = atan2(presentation.simdWorldFront.y, pb.velocity.z)
+        
+        let dy = atan2(presentation.simdWorldFront.x, pb.velocity.z)
+        
+        let dz = atan2(presentation.simdWorldFront.x, pb.velocity.y)
+        
+        //pb.applyTorque(SCNVector4Make(dx, dy, dz, 1.0), asImpulse: true)
+        
+        pb.angularVelocity = SCNVector4Make(dx, dy, dz, 1.0)
+        
     }
 }
 

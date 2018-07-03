@@ -101,8 +101,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         var lerpY = (viewY - cameraNode.presentation.position.y) * 0.01
         var lerpZ = (viewZ - cameraNode.presentation.position.z) * 0.01
         
-        //let constraint = SCNLookAtConstraint(target: minnow)
-        //cameraNode.constraints = [constraint]
+        let constraint = SCNLookAtConstraint(target: minnow)
+        cameraNode.constraints = [constraint]
         
         //cameraNode.position.x += lerpX
         //cameraNode.position.y += lerpY
