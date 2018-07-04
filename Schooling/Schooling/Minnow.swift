@@ -149,9 +149,7 @@ class Minnow: SCNNode{
             guard let pb = physicsBody else { return SCNVector3Make(0, 0, 0) }
             var steer: SCNVector3 = sum - pb.velocity
             steer.limit(mag: maxForce)
-            
-            //steer *= 1.5
-            
+
             return steer
         }else{
             return SCNVector3Make(0.0, 0.0, 0.0)
@@ -176,8 +174,6 @@ class Minnow: SCNNode{
         
         if(count > 0){
             sum = sum / Float(count)
-            
-            //sum *= 0.0
             
             return seek(target: sum)
         } else {
@@ -222,10 +218,9 @@ class Minnow: SCNNode{
         var cohesion: SCNVector3 = self.cohesion(boids: boids)
         
         //Weight behaviors:
-        separate *=  1.0
+        separate *= 1.0
         align *= 0.5
         cohesion *= 1.0
-        
         
         physicsBody?.applyForce(align, asImpulse: false)
         physicsBody?.applyForce(cohesion, asImpulse: false)

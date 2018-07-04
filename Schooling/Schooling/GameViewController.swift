@@ -71,7 +71,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         for _ in 1...10{
         let fishGeo = SCNPyramid(width: 0.25, height: 0.25, length: 0.25)
         fishGeo.firstMaterial?.diffuse.contents = UIColor(displayP3Red: 0.8, green: 0.2, blue: 0.2, alpha: 1.0)
-        let origin = SCNVector3Make(0.0, 5.0, 0.0)
+        let origin = SCNVector3Make(0.0, 1.0, 0.0)
         let minnow = Minnow(origin: origin)
         minnow.geometry = fishGeo
         minnow.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
@@ -122,22 +122,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             
         //Forces:
         let seekForce = m.seek(target: targetNode.position)
-        let alignForce = m.align(boids: minnows)
-        let cohesionForce = m.cohesion(boids: minnows)
-        let separationForce = m.separate(boids: minnows)
+        var alignForce = m.align(boids: minnows)
+        var cohesionForce = m.cohesion(boids: minnows)
+        var separationForce = m.separate(boids: minnows)
             
-        //let summation = fleeForce
+        //separationForce *= 1.5
+            
+        let summation = alignForce + cohesionForce + seekForce + separationForce
         //minnow.update()
         //Instantaneous application:
         
-            /*
-        m.physicsBody?.applyForce(seekForce, asImpulse: false)
-        m.physicsBody?.applyForce(alignForce, asImpulse: true)
-        m.physicsBody?.applyForce(cohesionForce, asImpulse: true)
-        m.physicsBody?.applyForce(separationForce, asImpulse: true)
-            */
+        m.physicsBody?.applyForce(summation, asImpulse: false)
+
+        //m.flock(boids: minnows)
             
-            m.flock(boids: minnows)
         }
         
     }
