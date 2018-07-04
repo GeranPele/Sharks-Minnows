@@ -211,6 +211,7 @@ class Minnow: SCNNode{
         return steer
     }
     
+    //One way to apply forces:
     func flock(boids: [Minnow]){
         
         var separate: SCNVector3 = self.separate(boids: boids)

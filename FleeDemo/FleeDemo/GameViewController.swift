@@ -72,7 +72,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         minnow.geometry = fishGeo
         minnow.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         minnow.physicsBody?.isAffectedByGravity = false
-        minnow.eulerAngles = SCNVector3Make(4.0, 0.0, 0.0)
         scene.rootNode.addChildNode(minnow)
         
         // retrieve the SCNView
@@ -122,12 +121,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         //Swift.print(cameraNode.position)
         
         //Forces:
-        let seekForce = minnow.seek(target: targetNode.position)
+        //let seekForce = minnow.seek(target: targetNode.position)
         let fleeForce = minnow.flee(target: sharkNode.position)
         //let summation = fleeForce
         //minnow.update()
         //Instantaneous application:
-        minnow.physicsBody?.applyForce(seekForce, asImpulse: false)
+        //minnow.physicsBody?.applyForce(seekForce, asImpulse: false)
         minnow.physicsBody?.applyForce(fleeForce, asImpulse: false)
         //Swift.print(force)
         

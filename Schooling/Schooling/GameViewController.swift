@@ -76,7 +76,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         minnow.geometry = fishGeo
         minnow.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         minnow.physicsBody?.isAffectedByGravity = false
-        minnow.eulerAngles = SCNVector3Make(4.0, 0.0, 0.0)
         minnows.append(minnow)
         scene.rootNode.addChildNode(minnow)
         }
@@ -119,23 +118,19 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         //Swift.print(cameraNode.position)
         
         for m in minnows{
+        
             
+        //One way to implement all forces:
         //Forces:
         let seekForce = m.seek(target: targetNode.position)
         var alignForce = m.align(boids: minnows)
         var cohesionForce = m.cohesion(boids: minnows)
         var separationForce = m.separate(boids: minnows)
             
-        //separationForce *= 1.5
-            
-        let summation = alignForce + cohesionForce + seekForce + separationForce
-        //minnow.update()
-        //Instantaneous application:
-        
+        let summation = alignForce + separationForce + cohesionForce
         m.physicsBody?.applyForce(summation, asImpulse: false)
-
+        
         //m.flock(boids: minnows)
-            
         }
         
     }
