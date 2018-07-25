@@ -19,6 +19,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var viewY: Float = 0.0
     var viewZ: Float = 0.0
     var cameraNode: SCNNode!
+    var minnowLookAt: SCNNode!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,12 +60,19 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         let fishGeo = SCNPyramid(width: 0.25, height: 0.25, length: 0.25)
         fishGeo.firstMaterial?.diffuse.contents = UIColor(displayP3Red: 0.8, green: 0.2, blue: 0.2, alpha: 1.0)
+        
         let origin = SCNVector3Make(0.0, 5.0, 0.0)
         minnow = Minnow(origin: origin)
         minnow.geometry = fishGeo
         minnow.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         minnow.physicsBody?.isAffectedByGravity = false
         scene.rootNode.addChildNode(minnow)
+        
+        minnowLookAt = SCNNode()
+        minnowLookAt.position = SCNVector3Make(0, 1, 0)
+        let lac = SCNLookAtConstraint(target: minnowLookAt)
+        lac.localFront = SCNVector3Make(0, 1, 0)
+        minnow.constraints = [lac]
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -119,6 +127,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         minnow.physicsBody?.applyForce(force, asImpulse: true)
        //Swift.print(force)
         
+        guard let pb = minnow.physicsBody else { return }
+        let worldLookAt = minnow.presentation.position + pb.velocity
+        minnowLookAt.position = worldLookAt
         
     }
     
