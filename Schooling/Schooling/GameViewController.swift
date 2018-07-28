@@ -98,28 +98,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         //Continue updating frames:
         scnView.isPlaying = true
         
-        // add a tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        scnView.addGestureRecognizer(tapGesture)
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
-        //let constraint = SCNLookAtConstraint(target: minnow)
-        //cameraNode.constraints = [constraint]
-        
-        //cameraNode.position.x += lerpX
-        //cameraNode.position.y += lerpY
-        //cameraNode.position.z += lerpZ
-        
-        //cameraNode.position = SCNVector3(x: viewX,y: viewY,z: viewZ)
-        //cameraNode.look(at: cameraViewport)
-        
-        //Swift.print(cameraNode.position)
-        
+
         for m in minnows{
-        
-            
+
         //One way to implement all forces:
         //Forces:
         let seekForce = m.seek(target: targetNode.position)
@@ -129,49 +113,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             
         let summation = alignForce + separationForce + cohesionForce
         m.physicsBody?.applyForce(summation, asImpulse: false)
-        
-        //m.flock(boids: minnows)
+        m.update()
         }
         
     }
-    
-    @objc
-    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        // check what nodes are tapped
-        let p = gestureRecognize.location(in: scnView)
-        /*
-         let hitResults = scnView.hitTest(p, options: [:])
-         // check that we clicked on at least one object
-         if hitResults.count > 0 {
-         // retrieved the first clicked object
-         let result = hitResults[0]
-         
-         // get its material
-         let material = result.node.geometry!.firstMaterial!
-         
-         // highlight it
-         SCNTransaction.begin()
-         SCNTransaction.animationDuration = 0.5
-         
-         // on completion - unhighlight
-         SCNTransaction.completionBlock = {
-         SCNTransaction.begin()
-         SCNTransaction.animationDuration = 0.5
-         
-         material.emission.contents = UIColor.black
-         
-         SCNTransaction.commit()
-         }
-         
-         material.emission.contents = UIColor.red
-         
-         */
-        SCNTransaction.commit()
-    }
-    
     
     override var shouldAutorotate: Bool {
         return true
