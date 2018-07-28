@@ -18,6 +18,8 @@ class Minnow: SCNNode{
     var maxForce: Float
     var velocity: SCNVector3
     var acceleration: SCNVector3
+    //Orientation:
+    var minnowLookAt: SCNNode!
     
     var rollV: GKRandomDistribution
     
@@ -30,8 +32,14 @@ class Minnow: SCNNode{
         mass = 1.0
         maxSpeed = mass
         maxForce = mass / 20.0
+        //Orientation:
+        minnowLookAt = SCNNode()
+        minnowLookAt.position = SCNVector3Make(0, 1, 0)
+        let lac = SCNLookAtConstraint(target: minnowLookAt)
+        lac.localFront = SCNVector3Make(0, 1, 0)
         super.init()
         position = origin
+        self.constraints = [lac]
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,17 +54,10 @@ class Minnow: SCNNode{
     }
     
     func update(){
-        
+        //Orientation:
         guard let pb = physicsBody else { return }
-        pb.velocity = pb.velocity + acceleration
-        pb.velocity.limit(mag: maxSpeed)
-        
-        /************************************/
-        //Not interchangable
-        //location = location + velocity
-        //position = position + velocity
-        /************************************/
-        acceleration = acceleration * 0.0
+        let worldLookAt = presentation.position + pb.velocity
+        minnowLookAt.position = worldLookAt
     }
     
     func seek(target: SCNVector3) -> SCNVector3{

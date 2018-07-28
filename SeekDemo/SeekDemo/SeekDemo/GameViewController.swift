@@ -19,7 +19,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var viewY: Float = 0.0
     var viewZ: Float = 0.0
     var cameraNode: SCNNode!
-    var minnowLookAt: SCNNode!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,12 +67,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         minnow.physicsBody?.isAffectedByGravity = false
         scene.rootNode.addChildNode(minnow)
         
-        minnowLookAt = SCNNode()
-        minnowLookAt.position = SCNVector3Make(0, 1, 0)
-        let lac = SCNLookAtConstraint(target: minnowLookAt)
-        lac.localFront = SCNVector3Make(0, 1, 0)
-        minnow.constraints = [lac]
-        
         // retrieve the SCNView
         let scnView = self.view as! SCNView
         
@@ -99,37 +92,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
-        //Camera viewport following for debuging:
-        viewX = minnow.presentation.position.x
-        viewY = minnow.presentation.position.y
-        viewZ = minnow.presentation.position.z
-        
-        var lerpX = (viewX - cameraNode.presentation.position.x) * 0.01
-        var lerpY = (viewY - cameraNode.presentation.position.y) * 0.01
-        var lerpZ = (viewZ - cameraNode.presentation.position.z) * 0.01
-        
-        //let constraint = SCNLookAtConstraint(target: targetNode)
-        //cameraNode.constraints = [constraint]
-        
-        //cameraNode.position.x += lerpX
-        //cameraNode.position.y += lerpY
-        //cameraNode.position.z += lerpZ
-        
-        //cameraNode.position = SCNVector3(x: viewX,y: viewY,z: viewZ)
-        //cameraNode.look(at: cameraViewport)
-        
-        //Swift.print(cameraNode.position)
-        
         //Forces:
         let force = minnow.seek(target: targetNode.position)
         //minnow.update()
         //Instantaneous application:
         minnow.physicsBody?.applyForce(force, asImpulse: true)
-       //Swift.print(force)
-        
-        guard let pb = minnow.physicsBody else { return }
-        let worldLookAt = minnow.presentation.position + pb.velocity
-        minnowLookAt.position = worldLookAt
+        minnow.update()
         
     }
     
