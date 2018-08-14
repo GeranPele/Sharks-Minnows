@@ -114,6 +114,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let summation = alignForce + separationForce + cohesionForce
         m.physicsBody?.applyForce(summation, asImpulse: false)
         m.update()
+            Swift.print("this is a line of code")
         }
         
     }
