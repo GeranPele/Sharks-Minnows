@@ -8,22 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		1238B2D02213747D00776DC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238B2CF2213747D00776DC8 /* AppDelegate.swift */; };
-		1238B2D22213747D00776DC8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238B2D12213747D00776DC8 /* ViewController.swift */; };
+		1238B2D22213747D00776DC8 /* TankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238B2D12213747D00776DC8 /* TankViewController.swift */; };
 		1238B2D52213747D00776DC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1238B2D32213747D00776DC8 /* Main.storyboard */; };
 		1238B2D82213747D00776DC8 /* SeekDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1238B2D62213747D00776DC8 /* SeekDemo.xcdatamodeld */; };
 		1238B2DA2213747E00776DC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1238B2D92213747E00776DC8 /* Assets.xcassets */; };
 		1238B2DD2213747E00776DC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1238B2DB2213747E00776DC8 /* LaunchScreen.storyboard */; };
+		518627EE22A470CE0034EAB3 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 518627ED22A470CE0034EAB3 /* art.scnassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1238B2CC2213747D00776DC8 /* SeekDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeekDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1238B2CF2213747D00776DC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1238B2D12213747D00776DC8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1238B2D12213747D00776DC8 /* TankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankViewController.swift; sourceTree = "<group>"; };
 		1238B2D42213747D00776DC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1238B2D72213747D00776DC8 /* SeekDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SeekDemo.xcdatamodel; sourceTree = "<group>"; };
 		1238B2D92213747E00776DC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1238B2DC2213747E00776DC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1238B2DE2213747E00776DC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		518627ED22A470CE0034EAB3 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,12 +59,13 @@
 			isa = PBXGroup;
 			children = (
 				1238B2CF2213747D00776DC8 /* AppDelegate.swift */,
-				1238B2D12213747D00776DC8 /* ViewController.swift */,
+				1238B2D12213747D00776DC8 /* TankViewController.swift */,
 				1238B2D32213747D00776DC8 /* Main.storyboard */,
 				1238B2D92213747E00776DC8 /* Assets.xcassets */,
 				1238B2DB2213747E00776DC8 /* LaunchScreen.storyboard */,
 				1238B2DE2213747E00776DC8 /* Info.plist */,
 				1238B2D62213747D00776DC8 /* SeekDemo.xcdatamodeld */,
+				518627ED22A470CE0034EAB3 /* art.scnassets */,
 			);
 			path = SeekDemo;
 			sourceTree = "<group>";
@@ -127,6 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1238B2DD2213747E00776DC8 /* LaunchScreen.storyboard in Resources */,
+				518627EE22A470CE0034EAB3 /* art.scnassets in Resources */,
 				1238B2DA2213747E00776DC8 /* Assets.xcassets in Resources */,
 				1238B2D52213747D00776DC8 /* Main.storyboard in Resources */,
 			);
@@ -140,7 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1238B2D82213747D00776DC8 /* SeekDemo.xcdatamodeld in Sources */,
-				1238B2D22213747D00776DC8 /* ViewController.swift in Sources */,
+				1238B2D22213747D00776DC8 /* TankViewController.swift in Sources */,
 				1238B2D02213747D00776DC8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

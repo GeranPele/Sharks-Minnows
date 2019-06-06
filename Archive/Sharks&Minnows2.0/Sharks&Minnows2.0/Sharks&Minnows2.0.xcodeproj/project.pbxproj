@@ -291,10 +291,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CT969879S3;
+				DEVELOPMENT_TEAM = 8TDB85NTGY;
 				INFOPLIST_FILE = "Sharks&Minnows2.0/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "GP.Sharks-Minnows2-0";
+				PRODUCT_BUNDLE_IDENTIFIER = "GRP.Sharks-Minnows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -306,10 +306,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CT969879S3;
+				DEVELOPMENT_TEAM = 8TDB85NTGY;
 				INFOPLIST_FILE = "Sharks&Minnows2.0/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "GP.Sharks-Minnows2-0";
+				PRODUCT_BUNDLE_IDENTIFIER = "GRP.Sharks-Minnows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
