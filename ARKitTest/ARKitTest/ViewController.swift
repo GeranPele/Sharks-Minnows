@@ -19,6 +19,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.autoenablesDefaultLighting = true
         sceneView.automaticallyUpdatesLighting = true
         addTapGestureToSceneView()
+        
         /*
         // Set the view's delegate
         sceneView.delegate = self
@@ -88,6 +89,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     let y = CGFloat(planeAnchor.center.y)
     let z = CGFloat(planeAnchor.center.z)
     planeNode.position = SCNVector3(x,y,z)
+    
+    //Rotate the plane?
     planeNode.eulerAngles.x = -.pi / 2
     
     // 6
