@@ -47,7 +47,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         //Set delegate to self:
         sceneView.delegate = self
         //Show obtained feature points for plane detection:
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWireframe, ARSCNDebugOptions.showPhysicsFields]
         
     }
     
@@ -115,6 +115,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let y = CGFloat(planeAnchor.center.y)
         let z = CGFloat(planeAnchor.center.z)
         planeNode.position = SCNVector3(x, y, z)
+        planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        planeNode.physicsBody?.isAffectedByGravity = false
         
     }
     
@@ -143,6 +145,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let y = translation.y
         let z = translation.z
         
+        for box in 0...50{
+            let boxGeo = SCNBox(width: 0.05, height: 0.05, length: 0.05, chamferRadius: 0.0)
+            boxGeo.firstMaterial?.diffuse.contents = UIColor.red
+            let boxNode = SCNNode(geometry: boxGeo)
+            
+            boxNode.position = SCNVector3(x, y + 0.1, z)
+            
+            boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+            boxNode.physicsBody?.restitution = 0.1
+            sceneView.scene.rootNode.addChildNode(boxNode)
+        }
+        
+        /*
         guard let shipScene = SCNScene(named: "/art.scnassets/Tank.scn"),
             let shipNode = shipScene.rootNode.childNode(withName: "Brep", recursively: false)
             else {
@@ -150,14 +165,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 Swift.print("Oh no!")
                 
                 return
-                
-                
         }
         
         
         shipNode.position = SCNVector3(x,y,z)
         
         sceneView.scene.rootNode.addChildNode(shipNode)
+         */
     }
     
     func addTapGestureToSceneView() {

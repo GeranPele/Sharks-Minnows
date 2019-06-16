@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:PhysicsBodyTesting/PhysicsBodyTesting.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:ARKitTest/ARKitTest.xcodeproj">
    </FileRef>
    <FileRef

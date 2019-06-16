@@ -211,15 +211,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate{
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
-        /*
+        
         if pebbles.count < 50 {
-            let origin = SCNVector3Make(0.0, 10.0, 0.0)
+            let origin = SCNVector3Make(0.0, 45.0, 0.0)
             let peb = Pebble(location: origin)
             //peb.update()
             pebbles.append(peb)
             scene.rootNode.addChildNode(peb)
         }
-         */
+        
         //Check if the pebble has reached a ture 'resting state' (check gravity) and change to static
         //Maybe setup the pebbles below the fish to simplify the scene
         /*
@@ -260,7 +260,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate{
     }
         */
         
-        
+        /*
         for m in minnows{
             let force = m.seek(target: SCNVector3Make(5.0, 1.0, 1.0))
             
@@ -272,7 +272,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate{
             
             Swift.print(force, m.location, m.position)
         }
-        
+        */
     }
  
     override var shouldAutorotate: Bool {
