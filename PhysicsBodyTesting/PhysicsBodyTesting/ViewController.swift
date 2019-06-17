@@ -68,6 +68,7 @@ class ViewController: UIViewController, SCNSceneRendererDelegate {
     
     @objc func createBox(withGestureRecognizer recognizer: UIGestureRecognizer){
         
+        
         for box in 0...50{
             let boxGeo = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.0)
             boxGeo.firstMaterial?.diffuse.contents = UIColor.red

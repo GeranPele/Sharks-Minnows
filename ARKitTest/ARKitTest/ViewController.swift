@@ -16,10 +16,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sceneView.autoenablesDefaultLighting = true
-        sceneView.automaticallyUpdatesLighting = true
+        //sceneView.autoenablesDefaultLighting = true
+        //sceneView.automaticallyUpdatesLighting = true
         addTapGestureToSceneView()
-        
+       
         /*
         // Set the view's delegate
         sceneView.delegate = self
@@ -145,19 +145,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let y = translation.y
         let z = translation.z
         
-        for box in 0...50{
-            let boxGeo = SCNBox(width: 0.05, height: 0.05, length: 0.05, chamferRadius: 0.0)
-            boxGeo.firstMaterial?.diffuse.contents = UIColor.red
-            let boxNode = SCNNode(geometry: boxGeo)
-            
-            boxNode.position = SCNVector3(x, y + 0.1, z)
-            
-            boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-            boxNode.physicsBody?.restitution = 0.1
-            sceneView.scene.rootNode.addChildNode(boxNode)
-        }
         
-        /*
         guard let shipScene = SCNScene(named: "/art.scnassets/Tank.scn"),
             let shipNode = shipScene.rootNode.childNode(withName: "Brep", recursively: false)
             else {
@@ -171,7 +159,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         shipNode.position = SCNVector3(x,y,z)
         
         sceneView.scene.rootNode.addChildNode(shipNode)
-         */
+    
+        // create and add a light to the scene:
+        let lightNode = SCNNode()
+        lightNode.light = SCNLight()
+        lightNode.light!.type = .spot
+        lightNode.position = SCNVector3(x: x, y: y + 15, z: z)
+        lightNode.eulerAngles = SCNVector3Make(-.pi/2.0, 0.0, 0.0)
+        sceneView.scene.rootNode.addChildNode(lightNode)
     }
     
     func addTapGestureToSceneView() {
