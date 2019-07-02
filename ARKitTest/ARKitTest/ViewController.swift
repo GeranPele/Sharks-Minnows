@@ -98,6 +98,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        
         //1
         guard let planeAnchor = anchor as?  ARPlaneAnchor,
             let planeNode = node.childNodes.first,
@@ -136,7 +137,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @objc func addTankToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer) {
+        
         let tapLocation = recognizer.location(in: sceneView)
+        
         let hitTestResults = sceneView.hitTest(tapLocation, types: .existingPlaneUsingExtent)
         
         guard let hitTestResult = hitTestResults.first else { return }
@@ -144,8 +147,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let x = translation.x
         let y = translation.y
         let z = translation.z
-        
-        
+        makeBoxes(x: x, y: y + 0.2, z: z)
+        /*
         guard let shipScene = SCNScene(named: "/art.scnassets/Tank.scn"),
             let shipNode = shipScene.rootNode.childNode(withName: "Brep", recursively: false)
             else {
@@ -167,11 +170,28 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         lightNode.position = SCNVector3(x: x, y: y + 15, z: z)
         lightNode.eulerAngles = SCNVector3Make(-.pi/2.0, 0.0, 0.0)
         sceneView.scene.rootNode.addChildNode(lightNode)
+        
+        */
     }
     
     func addTapGestureToSceneView() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addTankToSceneView(withGestureRecognizer:)))
         sceneView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func makeBoxes(x: Float, y: Float, z: Float){
+        let boxGeo = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.0)
+        boxGeo.firstMaterial?.diffuse.contents = UIColor.purple
+        let boxNode = SCNNode(geometry: boxGeo)
+        
+        boxNode.position = SCNVector3(x, y, z)
+        
+        boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        //Can adopt more native style physics in re-implementation of physics system!
+        boxNode.physicsBody!.restitution = 1.0
+        boxNode.physicsBody!.damping = 0.4
+        boxNode.physicsBody!.friction = 0.4
+        sceneView.scene.rootNode.addChildNode(boxNode)
     }
 }
 

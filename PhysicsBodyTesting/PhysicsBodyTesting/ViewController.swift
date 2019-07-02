@@ -44,14 +44,14 @@ class ViewController: UIViewController, SCNSceneRendererDelegate {
         
         
         //Initialize default view as a Scene View:
-        sceneView = self.view as! SCNView
+        sceneView = (self.view as! SCNView)
         //Set the view to our created scene:
         sceneView.scene = scene
         let backgroundColor = UIColor.init(red: 0.0273, green: 0.0351, blue: 0.2382, alpha: 1.0)
         sceneView.backgroundColor = backgroundColor
         sceneView.allowsCameraControl = true
         sceneView.showsStatistics = false
-        sceneView.debugOptions = [.showWireframe, .showBoundingBoxes, .showPhysicsFields, .showConstraints]
+        sceneView.debugOptions = [.showWireframe, .showBoundingBoxes, .showPhysicsFields, .showConstraints, .showPhysicsShapes]
         addTapGestureToSceneView()
         
         
@@ -68,16 +68,30 @@ class ViewController: UIViewController, SCNSceneRendererDelegate {
     
     @objc func createBox(withGestureRecognizer recognizer: UIGestureRecognizer){
         
+        let tapLocation = recognizer.location(in: sceneView)
+        let hitTestResults = sceneView.hitTest(tapLocation, options: [SCNHitTestOption.boundingBoxOnly: true])
+        
+        guard let hitTestResult = hitTestResults.first else { return }
+        let translation = hitTestResult.localCoordinates
+        var x = translation.x
+        var y = translation.y
+        var z = translation.z
         
         for box in 0...50{
             let boxGeo = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.0)
             boxGeo.firstMaterial?.diffuse.contents = UIColor.red
             let boxNode = SCNNode(geometry: boxGeo)
             
-            boxNode.position = SCNVector3(0.0, 5, 0.0)
+            y += Float(box/5)
+            
+            boxNode.position = SCNVector3(x, y, z)
             
             boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-            boxNode.physicsBody?.restitution = 0.2
+            //Can adopt more native style physics in re-implementation of physics system!
+            boxNode.physicsBody!.restitution = 1.0
+            boxNode.physicsBody!.damping = 0.4
+            boxNode.physicsBody!.friction = 0.4
+            
             scene.rootNode.addChildNode(boxNode)
         }
     }
