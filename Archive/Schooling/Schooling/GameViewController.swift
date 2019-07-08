@@ -112,7 +112,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         var separationForce = m.separate(boids: minnows)
             
         let summation = alignForce + separationForce + cohesionForce
-        m.physicsBody?.applyForce(summation, asImpulse: false)
+        m.physicsBody?.applyForce(summation, asImpulse: true)
         m.update()
             Swift.print("this is a line of code")
         }

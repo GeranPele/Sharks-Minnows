@@ -14,7 +14,7 @@
 		1295AFE220EBD10E00DBF632 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1295AFE120EBD10E00DBF632 /* Assets.xcassets */; };
 		1295AFE520EBD10E00DBF632 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1295AFE320EBD10E00DBF632 /* LaunchScreen.storyboard */; };
 		1295AFED20EBD13E00DBF632 /* Minnow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1295AFEC20EBD13E00DBF632 /* Minnow.swift */; };
-		1295AFEF20EBD15500DBF632 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1295AFEE20EBD15500DBF632 /* SCNVector3+Extensions.swift */; };
+		51990AAB22D288F500EB8C43 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51990AAA22D288F500EB8C43 /* SCNVector3+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		1295AFE420EBD10E00DBF632 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1295AFE620EBD10E00DBF632 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1295AFEC20EBD13E00DBF632 /* Minnow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minnow.swift; sourceTree = "<group>"; };
-		1295AFEE20EBD15500DBF632 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
+		51990AAA22D288F500EB8C43 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SCNVector3+Extensions.swift"; path = "../../../SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,7 @@
 				1295AFDA20EBD10E00DBF632 /* art.scnassets */,
 				1295AFDC20EBD10E00DBF632 /* GameViewController.swift */,
 				1295AFEC20EBD13E00DBF632 /* Minnow.swift */,
-				1295AFEE20EBD15500DBF632 /* SCNVector3+Extensions.swift */,
+				51990AAA22D288F500EB8C43 /* SCNVector3+Extensions.swift */,
 				1295AFDE20EBD10E00DBF632 /* Main.storyboard */,
 				1295AFE120EBD10E00DBF632 /* Assets.xcassets */,
 				1295AFE320EBD10E00DBF632 /* LaunchScreen.storyboard */,
@@ -149,7 +149,7 @@
 				1295AFED20EBD13E00DBF632 /* Minnow.swift in Sources */,
 				1295AFDD20EBD10E00DBF632 /* GameViewController.swift in Sources */,
 				1295AFD920EBD10E00DBF632 /* AppDelegate.swift in Sources */,
-				1295AFEF20EBD15500DBF632 /* SCNVector3+Extensions.swift in Sources */,
+				51990AAB22D288F500EB8C43 /* SCNVector3+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

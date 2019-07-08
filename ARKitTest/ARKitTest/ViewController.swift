@@ -9,10 +9,14 @@
 import UIKit
 import SceneKit
 import ARKit
+import GameplayKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    
+    var rollX = GKRandomDistribution(lowestValue: -5, highestValue: 5)
+    var rollZ = GKRandomDistribution(lowestValue: -5, highestValue: 5)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,13 +45,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
         //set horizontal plane detection:
-        configuration.planeDetection = .horizontal
+        configuration.planeDetection = [.horizontal, .vertical]
         // Run the view's session
         sceneView.session.run(configuration)
         //Set delegate to self:
         sceneView.delegate = self
+        //!! Interesting !!//
+        //Explicitly set gravity to mitigate jittery object placement:
+        //sceneView.scene.physicsWorld.gravity = SCNVector3Make(0.0, -1.0, 0.0)
         //Show obtained feature points for plane detection:
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWireframe, ARSCNDebugOptions.showPhysicsFields]
+        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWireframe, ARSCNDebugOptions.showPhysicsFields, ARSCNDebugOptions.showPhysicsShapes]
         
     }
     
@@ -121,6 +128,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
     
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        
+    }
+    
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
         
@@ -147,21 +158,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let x = translation.x
         let y = translation.y
         let z = translation.z
-        makeBoxes(x: x, y: y + 0.2, z: z)
-        /*
-        guard let shipScene = SCNScene(named: "/art.scnassets/Tank.scn"),
-            let shipNode = shipScene.rootNode.childNode(withName: "Brep", recursively: false)
+        
+        guard let tankScene = SCNScene(named: "/art.scnassets/Tank.scn"),
+            let tankNode = tankScene.rootNode.childNode(withName: "Walls", recursively: false)
             else {
-                
                 Swift.print("Oh no!")
                 
                 return
         }
         
         
-        shipNode.position = SCNVector3(x,y,z)
+        tankNode.position = SCNVector3(x,y,z)
         
-        sceneView.scene.rootNode.addChildNode(shipNode)
+        sceneView.scene.rootNode.addChildNode(tankNode)
+        for _ in 0...5{
+            makeBoxes(x: x, y: y + 2, z: z)
+        }
     
         // create and add a light to the scene:
         let lightNode = SCNNode()
@@ -171,7 +183,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         lightNode.eulerAngles = SCNVector3Make(-.pi/2.0, 0.0, 0.0)
         sceneView.scene.rootNode.addChildNode(lightNode)
         
-        */
+        
     }
     
     func addTapGestureToSceneView() {
@@ -189,8 +201,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         //Can adopt more native style physics in re-implementation of physics system!
         boxNode.physicsBody!.restitution = 1.0
-        boxNode.physicsBody!.damping = 0.4
+        boxNode.physicsBody!.damping = 0.2
         boxNode.physicsBody!.friction = 0.4
+        
         sceneView.scene.rootNode.addChildNode(boxNode)
     }
 }
