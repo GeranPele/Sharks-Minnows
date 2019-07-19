@@ -55,8 +55,8 @@ class ViewController: UIViewController, SCNSceneRendererDelegate {
         addTapGestureToSceneView()
         
         
-        //Set sceneView as a delegate to SCNSceneRenderer to override the renderer function:
-        sceneView.delegate = self as SCNSceneRendererDelegate
+        //Set sceneView delegate as self:
+        sceneView.delegate = self //as SCNSceneRendererDelegate
         //Continue updating frames:
         sceneView.isPlaying = true
     }

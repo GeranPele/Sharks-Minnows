@@ -75,7 +75,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         return node
     }
 */
-    
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
     // 1
     guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
@@ -105,7 +104,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        
         //1
         guard let planeAnchor = anchor as?  ARPlaneAnchor,
             let planeNode = node.childNodes.first,
@@ -159,7 +157,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let y = translation.y
         let z = translation.z
         
-        guard let tankScene = SCNScene(named: "/art.scnassets/Tank.scn"),
+        guard let tankScene = SCNScene(named: "/art.scnassets/TankScaled.scn"),
             let tankNode = tankScene.rootNode.childNode(withName: "Walls", recursively: false)
             else {
                 Swift.print("Oh no!")
@@ -167,12 +165,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 return
         }
         
-        
         tankNode.position = SCNVector3(x,y,z)
-        
+        //Try logging collision detections!!
         sceneView.scene.rootNode.addChildNode(tankNode)
         for _ in 0...5{
-            makeBoxes(x: x, y: y + 2, z: z)
+            makeBoxes(x: x, y: y + 0.05, z: z)
         }
     
         // create and add a light to the scene:
@@ -183,7 +180,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         lightNode.eulerAngles = SCNVector3Make(-.pi/2.0, 0.0, 0.0)
         sceneView.scene.rootNode.addChildNode(lightNode)
         
-        
+        sceneView.scene.physicsWorld.gravity = SCNVector3Make(0.0, -1.0, 0.0)
     }
     
     func addTapGestureToSceneView() {
@@ -192,7 +189,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func makeBoxes(x: Float, y: Float, z: Float){
-        let boxGeo = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.0)
+        let boxGeo = SCNBox(width: 0.05, height: 0.05, length: 0.05, chamferRadius: 0.0)
         boxGeo.firstMaterial?.diffuse.contents = UIColor.purple
         let boxNode = SCNNode(geometry: boxGeo)
         
