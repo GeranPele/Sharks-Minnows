@@ -18,6 +18,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var rollX = GKRandomDistribution(lowestValue: -5, highestValue: 5)
     var rollZ = GKRandomDistribution(lowestValue: -5, highestValue: 5)
     
+    
+    var testVector = SCNVector3(1.0, 0.0, 0.0)
+    var timeSinceLaunch = 0.0
+    var dTime: Int?{
+        
+        didSet{
+            timeSinceLaunch += 0.01
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //sceneView.autoenablesDefaultLighting = true
@@ -54,8 +64,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         //Explicitly set gravity to mitigate jittery object placement:
         //sceneView.scene.physicsWorld.gravity = SCNVector3Make(0.0, -1.0, 0.0)
         //Show obtained feature points for plane detection:
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWireframe, ARSCNDebugOptions.showPhysicsFields, ARSCNDebugOptions.showPhysicsShapes]
-        
+        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, /*ARSCNDebugOptions.showWireframe,*/ ARSCNDebugOptions.showPhysicsFields /*, ARSCNDebugOptions.showPhysicsShapes*/]
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -105,29 +114,40 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         //1
-        guard let planeAnchor = anchor as?  ARPlaneAnchor,
-            let planeNode = node.childNodes.first,
-            let plane = planeNode.geometry as? SCNPlane
-            else { return }
-        
-        // 2
-        let width = CGFloat(planeAnchor.extent.x)
-        let height = CGFloat(planeAnchor.extent.z)
-        plane.width = width
-        plane.height = height
-        
-        // 3
-        let x = CGFloat(planeAnchor.center.x)
-        let y = CGFloat(planeAnchor.center.y)
-        let z = CGFloat(planeAnchor.center.z)
-        planeNode.position = SCNVector3(x, y, z)
-        planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
-        planeNode.physicsBody?.isAffectedByGravity = false
-        
+    guard let planeAnchor = anchor as?  ARPlaneAnchor,
+        let planeNode = node.childNodes.first,
+        let plane = planeNode.geometry as? SCNPlane
+        else { return }
+    
+    // 2
+    let width = CGFloat(planeAnchor.extent.x)
+    let height = CGFloat(planeAnchor.extent.z)
+    plane.width = width
+    plane.height = height
+    
+    // 3
+    let x = CGFloat(planeAnchor.center.x)
+    let y = CGFloat(planeAnchor.center.y)
+    let z = CGFloat(planeAnchor.center.z)
+    planeNode.position = SCNVector3(x, y, z)
+    planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+    planeNode.physicsBody?.isAffectedByGravity = false
     }
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
+        for node in sceneView.scene.rootNode.childNodes{
+            node.physicsBody?.applyForce(testVector, asImpulse: false)
+        }
+        //Trickery to get time in seconds since launch:
+        dTime = Int(time) % 2
+        
+        if(timeSinceLaunch > 3){
+            testVector *= -1.0
+            timeSinceLaunch = 0
+            
+            print(testVector)
+        }
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
@@ -160,7 +180,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         guard let tankScene = SCNScene(named: "/art.scnassets/TankScaled.scn"),
             let tankNode = tankScene.rootNode.childNode(withName: "Walls", recursively: false)
             else {
-                Swift.print("Oh no!")
+                Swift.print(Error.self)
                 
                 return
         }
@@ -189,6 +209,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func makeBoxes(x: Float, y: Float, z: Float){
+        //Objects scaled in meter:
         let boxGeo = SCNBox(width: 0.05, height: 0.05, length: 0.05, chamferRadius: 0.0)
         boxGeo.firstMaterial?.diffuse.contents = UIColor.purple
         let boxNode = SCNNode(geometry: boxGeo)
@@ -211,4 +232,233 @@ extension float4x4 {
         return float3(translation.x, translation.y, translation.z)
     }
 }
+
+extension SCNVector3 {
+    
+    //Adds a magnitude member to the SCNVector3 class
+    public var magnitude: Float {
+        get{
+            
+            return sqrt((x * x)+(y * y)+(z * z))
+        }
+        set {
+            normalize()
+            x = x * newValue
+            y = y * newValue
+            z = z * newValue
+        }
+    }
+    
+    /**
+     Inverts vector
+     */
+    mutating func invert() -> SCNVector3 {
+        return self * -1
+    }
+    
+    /**
+     Calculates vector length based on Pythagoras theorem
+     */
+    var length:Float {
+        get {
+            return sqrtf(x*x + y*y + z*z)
+        }
+        set {
+            self = self.unit * newValue
+        }
+    }
+    
+    /**
+     Calculate Length Squared of Vector
+     - Use this to determine Longest/Shortest vector. Much faster than using v.length
+     */
+    var lengthSquared:Float {
+        get {
+            return self.x * self.x + self.y * self.y + self.z * self.z;
+        }
+    }
+    
+    /**
+     Returns unit vector (aka Normalized Vector)
+     - v.length = 1.0
+     */
+    var unit:SCNVector3 {
+        get {
+            return self / self.length
+        }
+    }
+    
+    /**
+     Normalizes vector
+     - v.Length = 1.0
+     */
+    mutating func normalize() {
+        self = self.unit
+    }
+    
+    /**
+     Calculates distance to vector
+     */
+    func distance(toVector: SCNVector3) -> Float {
+        return (self - toVector).length
+    }
+    
+    
+    /**
+     Calculates dot product to vector
+     */
+    func dot(toVector: SCNVector3) -> Float {
+        return x * toVector.x + y * toVector.y + z * toVector.z
+    }
+    
+    /**
+     Calculates cross product to vector
+     */
+    func cross(toVector: SCNVector3) -> SCNVector3 {
+        return SCNVector3Make(y * toVector.z - z * toVector.y, z * toVector.x - x * toVector.z, x * toVector.y - y * toVector.x)
+    }
+    
+    func magSquare() -> Float{
+        //Forcing pemdas:
+        return ((x * x) + (y * y) + (z * z))
+    }
+    
+    public mutating func limit(mag: Float){
+        
+        if magSquare() > (mag * mag){
+            normalize()
+            x = x * mag
+            y = y * mag
+            z = z * mag
+        }
+    }
+    
+    /**
+     Get/Set vector angle on XY axis
+     */
+    var xyAngle:Float {
+        get {
+            return atan2(self.y, self.x)
+        }
+        set {
+            let length = self.length
+            self.x = cos(newValue) * length
+            self.y = sin(newValue) * length
+        }
+    }
+    
+    /**
+     Get/Set vector angle on XZ axis
+     */
+    var xzAngle:Float {
+        get {
+            return atan2(self.z, self.x)
+        }
+        set {
+            let length = self.length
+            self.x = cos(newValue) * length
+            self.z = sin(newValue) * length
+        }
+    }
+}
+
+
+// SCNVector Operators
+
+/**
+ v1 = v2 + v3
+ */
+func +(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
+    return SCNVector3Make(left.x + right.x, left.y + right.y, left.z + right.z)
+}
+
+/**
+ v1 += v2
+ */
+func +=( left: inout SCNVector3, right: SCNVector3) {
+    left = left + right
+}
+
+/**
+ v1 = v2 - v3
+ */
+func -(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
+    return SCNVector3Make(left.x - right.x, left.y - right.y, left.z - right.z)
+}
+
+/**
+ v1 -= v2
+ */
+func -=( left: inout SCNVector3, right: SCNVector3) {
+    left = left - right
+}
+
+/**
+ v1 = v2 * v3
+ */
+func *(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
+    return SCNVector3Make(left.x * right.x, left.y * right.y, left.z * right.z)
+}
+
+/**
+ v1 *= v2
+ */
+func *=( left: inout SCNVector3, right: SCNVector3) {
+    left = left * right
+}
+
+/**
+ v1 = v2 * x
+ */
+func *(left: SCNVector3, right: Float) -> SCNVector3 {
+    return SCNVector3Make(left.x * right, left.y * right, left.z * right)
+}
+
+/**
+ v *= x
+ */
+func *=( left: inout SCNVector3, right: Float) {
+    left = SCNVector3Make(left.x * right, left.y * right, left.z * right)
+}
+
+/**
+ v1 = v2 / v3
+ */
+func /(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
+    return SCNVector3Make(left.x / right.x, left.y / right.y, left.z / right.z)
+}
+
+/**
+ v1 /= v2
+ */
+func /=( left: inout SCNVector3, right: SCNVector3) {
+    left = SCNVector3Make(left.x / right.x, left.y / right.y, left.z / right.z)
+}
+
+/**
+ v1 = v2 / x
+ */
+func /(left: SCNVector3, right: Float) -> SCNVector3 {
+    return SCNVector3Make(left.x / right, left.y / right, left.z / right)
+}
+
+/**
+ v /= x
+ */
+func /=( left: inout SCNVector3, right: Float) {
+    left = SCNVector3Make(left.x / right, left.y / right, left.z / right)
+}
+
+/**
+ v = -v
+ */
+prefix func -(v: SCNVector3) -> SCNVector3 {
+    return v * -1
+}
+
+
+
+
+
+
 
