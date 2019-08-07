@@ -14,6 +14,7 @@
 		510591BB22EE31D000CAF1BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 510591BA22EE31D000CAF1BB /* Assets.xcassets */; };
 		510591BE22EE31D000CAF1BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 510591BC22EE31D000CAF1BB /* LaunchScreen.storyboard */; };
 		510591C622EE321000CAF1BB /* Tank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510591C522EE321000CAF1BB /* Tank.swift */; };
+		5150011522EFA7DE00A181A6 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5150011422EFA7DE00A181A6 /* SCNVector3+Extensions.swift */; };
 		5181249A22EE51CE00DBE339 /* Minnow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5181249922EE51CE00DBE339 /* Minnow.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		510591BD22EE31D000CAF1BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		510591BF22EE31D000CAF1BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		510591C522EE321000CAF1BB /* Tank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tank.swift; sourceTree = "<group>"; };
+		5150011422EFA7DE00A181A6 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		5181249922EE51CE00DBE339 /* Minnow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minnow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -44,6 +46,7 @@
 		510591A522EE31CF00CAF1BB = {
 			isa = PBXGroup;
 			children = (
+				5150011422EFA7DE00A181A6 /* SCNVector3+Extensions.swift */,
 				510591B022EE31CF00CAF1BB /* Sharks&Minnows */,
 				510591AF22EE31CF00CAF1BB /* Products */,
 			);
@@ -149,6 +152,7 @@
 				510591C622EE321000CAF1BB /* Tank.swift in Sources */,
 				510591B222EE31CF00CAF1BB /* AppDelegate.swift in Sources */,
 				5181249A22EE51CE00DBE339 /* Minnow.swift in Sources */,
+				5150011522EFA7DE00A181A6 /* SCNVector3+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8TDB85NTGY;
 				INFOPLIST_FILE = "Sharks&Minnows/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -316,7 +320,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8TDB85NTGY;
 				INFOPLIST_FILE = "Sharks&Minnows/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

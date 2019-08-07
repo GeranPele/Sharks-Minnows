@@ -10,9 +10,24 @@ import UIKit
 import SceneKit
 import ARKit
 
+//Orientation
+//Sometimes collide through the walls (Make them thicker?)
+
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    
+    var testVector = SCNVector3(1.0, 0.0, 0.0)
+    
+    //Keep track of time in seconds since launch
+    var timeSinceLaunch = 0.0
+    //Observer method
+    var dTime: Int = 0{
+        
+        didSet{
+            timeSinceLaunch += 0.01
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +46,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         //Set delegate to self:
         sceneView.delegate = self
 
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, /*ARSCNDebugOptions.showWireframe,*/ ARSCNDebugOptions.showPhysicsFields /*, ARSCNDebugOptions.showPhysicsShapes*/]
+        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, /*ARSCNDebugOptions.showWireframe,*/ ARSCNDebugOptions.showPhysicsFields, ARSCNDebugOptions.showPhysicsShapes]
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -41,68 +56,97 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
 
-    // MARK: - ARSCNViewDelegate
-    
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        /*
+        let look = SCNVector3Make(0.0, 0.0, 0.0)
+        let up = SCNVector3Make(0.0, 1.0, 0.0)
+        let front = SCNVector3Make(1.0, 0.0, 0.0)
+        */
+        for node in sceneView.scene.rootNode.childNodes{
+            node.physicsBody?.applyForce(testVector, asImpulse: false)
+           
+            if (node.name == "Minnow"){
+                //node.look(at: look, up: up, localFront: front)
+            }
+        }
+        //Trickery to get time in seconds since launch:
+        dTime = Int(time) % 2
         
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
+        if(timeSinceLaunch > 3){
+            testVector *= -1.0
+            timeSinceLaunch = 0
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        // 1
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+        node.addChildNode(generateARSurfacePlane(planeAnchor: planeAnchor))
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        updateARSurfacePlane(node: node, anchor: anchor)
+    }
+    
+    
+    @objc func addTankToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer) {
         
-        // 2
+        let tapLocation = recognizer.location(in: sceneView)
+        let hitTestResults = sceneView.hitTest(tapLocation, types: .existingPlaneUsingExtent)
+        
+        guard let hitTestResult = hitTestResults.first else { return }
+        let translation = hitTestResult.worldTransform.translation
+        
+        let positionCenter = SCNVector3Make(translation.x, translation.y,  translation.z)
+        //Make the tank
+        let tank = Tank(position: positionCenter)
+        //Make minnows
+        for _ in 0...5{
+            let minnow = Minnow(origin: SCNVector3Make(positionCenter.x, positionCenter.y + 0.5, positionCenter.z))
+            //Add minnows to the tank
+            tank.scene.rootNode.addChildNode(minnow)
+        }
+        //Add all nodes from tank to the scene
+        for node in tank.scene.rootNode.childNodes{
+           sceneView.scene.rootNode.addChildNode(node)
+        }
+        sceneView.scene.physicsWorld.gravity = tank.scene.physicsWorld.gravity
+    }
+    
+    func addTapGestureToSceneView() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addTankToSceneView(withGestureRecognizer:)))
+        sceneView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func generateARSurfacePlane(planeAnchor: ARPlaneAnchor) -> SCNNode{
+ 
+        //Create plane geometry from our ARPlaneAnchor
         let width = CGFloat(planeAnchor.extent.x)
         let height = CGFloat(planeAnchor.extent.z)
         let plane = SCNPlane(width: width, height: height)
         
-        // 3
+        //Transparent gray
         plane.materials.first?.diffuse.contents = UIColor.init(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.3)
         
-        // 4
+        //Create a node for the plane using the geometry we created
         let planeNode = SCNNode(geometry: plane)
-        
-        // 5
+        //Center the plane on the anchor
         let x = CGFloat(planeAnchor.center.x)
         let y = CGFloat(planeAnchor.center.y)
         let z = CGFloat(planeAnchor.center.z)
         planeNode.position = SCNVector3(x,y,z)
-        
-        //Rotate the plane?
+        //Aligns the x-axis?
         planeNode.eulerAngles.x = -.pi / 2
         
-        // 6
-        node.addChildNode(planeNode)
+        return planeNode
     }
     
-    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        //1
+    func updateARSurfacePlane(node: SCNNode, anchor: ARAnchor){
+        
         guard let planeAnchor = anchor as?  ARPlaneAnchor,
             let planeNode = node.childNodes.first,
             let plane = planeNode.geometry as? SCNPlane
             else { return }
         
-        // 2
         let width = CGFloat(planeAnchor.extent.x)
         let height = CGFloat(planeAnchor.extent.z)
         plane.width = width
@@ -115,26 +159,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         planeNode.position = SCNVector3(x, y, z)
         planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         planeNode.physicsBody?.isAffectedByGravity = false
-    }
-    
-    
-    @objc func addTankToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer) {
-        
-        let tapLocation = recognizer.location(in: sceneView)
-        
-        let hitTestResults = sceneView.hitTest(tapLocation, types: .existingPlaneUsingExtent)
-        
-        guard let hitTestResult = hitTestResults.first else { return }
-        let translation = hitTestResult.worldTransform.translation
-        
-        let positionCenter = SCNVector3Make(translation.x, translation.y,  translation.z)
-        let tank = Tank(position: positionCenter)
-        sceneView.scene = tank.scene
-    }
-    
-    func addTapGestureToSceneView() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addTankToSceneView(withGestureRecognizer:)))
-        sceneView.addGestureRecognizer(tapGestureRecognizer)
     }
 }
 

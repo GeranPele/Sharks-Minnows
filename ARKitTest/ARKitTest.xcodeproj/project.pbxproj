@@ -13,6 +13,7 @@
 		51323EAF22A47C7400689FA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51323EAD22A47C7400689FA2 /* Main.storyboard */; };
 		51323EB122A47C7400689FA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51323EB022A47C7400689FA2 /* Assets.xcassets */; };
 		51323EB422A47C7500689FA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51323EB222A47C7500689FA2 /* LaunchScreen.storyboard */; };
+		5150011722EFA85300A181A6 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5150011622EFA85300A181A6 /* SCNVector3+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		51323EB022A47C7400689FA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		51323EB322A47C7500689FA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		51323EB522A47C7500689FA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5150011622EFA85300A181A6 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		51DD6D0A22EBC2B600C960F5 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SCNVector3+Extensions.swift"; path = "../SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,6 +43,7 @@
 		51323E9B22A47C7400689FA2 = {
 			isa = PBXGroup;
 			children = (
+				5150011622EFA85300A181A6 /* SCNVector3+Extensions.swift */,
 				51323EA622A47C7400689FA2 /* ARKitTest */,
 				51323EA522A47C7400689FA2 /* Products */,
 				51DD6D0922EBC2B500C960F5 /* Frameworks */,
@@ -150,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51323EAC22A47C7400689FA2 /* ViewController.swift in Sources */,
+				5150011722EFA85300A181A6 /* SCNVector3+Extensions.swift in Sources */,
 				51323EA822A47C7400689FA2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

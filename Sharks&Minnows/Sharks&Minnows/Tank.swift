@@ -47,6 +47,7 @@ class Tank: SCNScene {
         scene.rootNode.addChildNode(spotLight)
     }
     
+    //Could make other functions like drag etc.
     func generatePhysicsEnvironment(){
         scene.physicsWorld.gravity = SCNVector3Make(0.0, -1.0, 0.0)
     }
