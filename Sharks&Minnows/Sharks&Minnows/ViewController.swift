@@ -11,14 +11,13 @@ import SceneKit
 import ARKit
 
 //Orientation
-//Sometimes collide through the walls (Make them thicker?)
+//Sometimes collide through the walls work on collisions (margin, threshold)
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     
-    var testVector = SCNVector3(1.0, 0.0, 0.0)
-    
+    var testVector = SCNVector3(0.0, 2.0, 0.0)
     //Keep track of time in seconds since launch
     var timeSinceLaunch = 0.0
     //Observer method
@@ -46,7 +45,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         //Set delegate to self:
         sceneView.delegate = self
 
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, /*ARSCNDebugOptions.showWireframe,*/ ARSCNDebugOptions.showPhysicsFields, ARSCNDebugOptions.showPhysicsShapes]
+        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, /*ARSCNDebugOptions.showWireframe, ARSCNDebugOptions.showPhysicsFields, ARSCNDebugOptions.showPhysicsShapes*/]
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -55,20 +55,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
+    
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        // Do something with the new transform
+        //let currentTransform = frame.camera.transform
+        //var translation = matrix_identity_float4x4
+        //translation.columns.3.z = -0.1 // Translate 10 cm in front of the camera
+        //look.simdTransform = matrix_multiply(frame.camera.transform, translation)
+    }
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        /*
-        let look = SCNVector3Make(0.0, 0.0, 0.0)
-        let up = SCNVector3Make(0.0, 1.0, 0.0)
-        let front = SCNVector3Make(1.0, 0.0, 0.0)
-        */
-        for node in sceneView.scene.rootNode.childNodes{
-            node.physicsBody?.applyForce(testVector, asImpulse: false)
-           
-            if (node.name == "Minnow"){
-                //node.look(at: look, up: up, localFront: front)
-            }
-        }
         //Trickery to get time in seconds since launch:
         dTime = Int(time) % 2
         
@@ -76,13 +72,32 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             testVector *= -1.0
             timeSinceLaunch = 0
         }
+        
+        for node in sceneView.scene.rootNode.childNodes{
+            
+            //let relativeVector = node.presentation.convertVector(testVector, to: nil)
+            if (node.name == "Minnow"){
+                let minnow = node as? Minnow
+                //minnow?.leadingNode.position = testVector
+                minnow?.update()
+            }
+        }
     }
+
+    //Converts the node's local forard into the world coordinate space
+    //let localForwardVector = SCNVector3Make(0.0, 0.0, -0.1)
+    //let worldForwardVector = node.presentation.convertVector(localForwardVector, to: nil)
+    //leader.position = worldForwardVector
+    //node.physicsBody?.velocity = worldForwardVector//better for testing at the least
+    //node.physicsBody?.applyForce(worldForwardVector, asImpulse: false)//Not sure which way to implement this
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         node.addChildNode(generateARSurfacePlane(planeAnchor: planeAnchor))
     }
     
+    //Need to work on this
+    //Should just make one plane, then stop updating that plane and defining more feature points
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         updateARSurfacePlane(node: node, anchor: anchor)
     }
@@ -98,18 +113,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let positionCenter = SCNVector3Make(translation.x, translation.y,  translation.z)
         //Make the tank
-        let tank = Tank(position: positionCenter)
-        //Make minnows
-        for _ in 0...5{
-            let minnow = Minnow(origin: SCNVector3Make(positionCenter.x, positionCenter.y + 0.5, positionCenter.z))
-            //Add minnows to the tank
-            tank.scene.rootNode.addChildNode(minnow)
-        }
-        //Add all nodes from tank to the scene
-        for node in tank.scene.rootNode.childNodes{
-           sceneView.scene.rootNode.addChildNode(node)
-        }
-        sceneView.scene.physicsWorld.gravity = tank.scene.physicsWorld.gravity
+        createTank(origin: positionCenter)
     }
     
     func addTapGestureToSceneView() {
@@ -159,6 +163,34 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         planeNode.position = SCNVector3(x, y, z)
         planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
         planeNode.physicsBody?.isAffectedByGravity = false
+    }
+    
+    func createTank(origin: SCNVector3){
+        let geometryScene = SCNScene(named: "art.scnassets/Tank.scn")!
+        
+        for node in geometryScene.rootNode.childNodes{
+            node.position = origin
+            sceneView.scene.rootNode.addChildNode(node)
+        }
+        
+        // create and add a light to the Tank:
+        let spotLight = SCNNode()
+        spotLight.name = "SpotLight"
+        spotLight.light = SCNLight()
+        spotLight.light!.type = .spot
+        spotLight.position = SCNVector3(x: origin.x, y: origin.y + 15, z: origin.z)
+        spotLight.eulerAngles = SCNVector3Make(-.pi/2.0, 0.0, 0.0)
+        sceneView.scene.rootNode.addChildNode(spotLight)
+        
+        //Gravity
+        sceneView.scene.physicsWorld.gravity = SCNVector3Make(0.0, -1.0, 0.0)
+        
+        //Minnows
+        for _ in 0...2{
+            let minnow = Minnow(origin: SCNVector3Make(origin.x, origin.y + 0.5, origin.z))
+            //Add minnows to the tank
+            sceneView.scene.rootNode.addChildNode(minnow)
+        }
     }
 }
 
