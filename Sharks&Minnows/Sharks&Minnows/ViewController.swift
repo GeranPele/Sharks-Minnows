@@ -17,9 +17,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     
-    var testVector = SCNVector3(0.0, 2.0, 0.0)
+    var testVector = SCNVector3(2.0, 0.0, 0.0)
     //Keep track of time in seconds since launch
     var timeSinceLaunch = 0.0
+    var minnows: [Minnow] = []
     //Observer method
     var dTime: Int = 0{
         
@@ -73,14 +74,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             timeSinceLaunch = 0
         }
         
-        for node in sceneView.scene.rootNode.childNodes{
-            
-            //let relativeVector = node.presentation.convertVector(testVector, to: nil)
-            if (node.name == "Minnow"){
-                let minnow = node as? Minnow
-                //minnow?.leadingNode.position = testVector
-                minnow?.update()
-            }
+        for minnow in minnows{
+            minnow.run(minnows: minnows)
         }
     }
 
@@ -138,7 +133,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let y = CGFloat(planeAnchor.center.y)
         let z = CGFloat(planeAnchor.center.z)
         planeNode.position = SCNVector3(x,y,z)
-        //Aligns the x-axis?
+        //
         planeNode.eulerAngles.x = -.pi / 2
         
         return planeNode
@@ -190,6 +185,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let minnow = Minnow(origin: SCNVector3Make(origin.x, origin.y + 0.5, origin.z))
             //Add minnows to the tank
             sceneView.scene.rootNode.addChildNode(minnow)
+            minnows.append(minnow)
         }
     }
 }
