@@ -74,8 +74,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             timeSinceLaunch = 0
         }
         
-        for minnow in minnows{
+        for(index, minnow) in minnows.enumerated(){
             minnow.run(minnows: minnows)
+            
+            if(index == 1){
+                
+            }
         }
     }
 
@@ -181,7 +185,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.scene.physicsWorld.gravity = SCNVector3Make(0.0, -1.0, 0.0)
         
         //Minnows
-        for _ in 0...2{
+        for _ in 0...20{
             let minnow = Minnow(origin: SCNVector3Make(origin.x, origin.y + 0.5, origin.z))
             //Add minnows to the tank
             sceneView.scene.rootNode.addChildNode(minnow)
@@ -191,8 +195,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 }
 
 extension float4x4 {
-    var translation: float3 {
+    var translation: SIMD3<Float> {
         let translation = self.columns.3
-        return float3(translation.x, translation.y, translation.z)
+        return SIMD3<Float>(translation.x, translation.y, translation.z)
     }
 }

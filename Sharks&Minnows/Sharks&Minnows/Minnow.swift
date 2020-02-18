@@ -9,8 +9,9 @@
 import UIKit
 import SceneKit
 
-//Tackle orientation
+//Tackle orientation, constraints not working or leading node position?
 //Node is backwards, export it the other way maybe?
+//Need to tackle bounds to keep minnows in the tank for better testing.
 class Minnow: SCNNode {
     
     //Orientation Vector node.presentation.simdPosition + node.presentation.simdWorldFront
@@ -18,11 +19,12 @@ class Minnow: SCNNode {
     var acceleration: SCNVector3
     var maxSpeed: Float
     var maxForce: Float
+    var leadingConstraints: SCNLookAtConstraint
     
     init(origin: SCNVector3){
         leadingNode = SCNNode()
         leadingNode.position = origin
-        
+        leadingConstraints = SCNLookAtConstraint(target: leadingNode)
         acceleration = SCNVector3Make(0.0, 0.0, 0.0)
         maxSpeed = 0.1
         maxForce = 5.0
@@ -47,18 +49,18 @@ class Minnow: SCNNode {
                 
                 self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: boundingBox)
                 physicsBody?.isAffectedByGravity = false
-                //physicsBody?.continuousCollisionDetectionThreshold = 0.5 ???
+                physicsBody?.continuousCollisionDetectionThreshold = 0.5
                 self.name = node.name
             }
         }
         
         let sphere = SCNSphere(radius: 0.01)
         leadingNode.geometry = sphere
-        //leadingNode.position = SCNVector3Make(0.0, 0.0, 0.0)
+        //leadingNode.position = (self.presentation.position + self.physicsBody!.velocity) * 0.025
         leadingNode.name = "leadingNode"
-        //self.addChildNode(leadingNode)
+        self.addChildNode(leadingNode)
         
-        let leadingConstraints = SCNLookAtConstraint(target: leadingNode)
+        //leadingConstraints = SCNLookAtConstraint(target: leadingNode)
         //let upConstraints = SCNLookAtConstraint( Can we create an 'upConstraint' to keep the minnow from rolling
         self.constraints = [leadingConstraints]
     }
@@ -72,19 +74,24 @@ class Minnow: SCNNode {
     func applyForce(force: SCNVector3){
         
         let f: SCNVector3 = force
-        acceleration = acceleration + f
+        acceleration = (acceleration + f)
     }
     
     func update(){
-        
+        bounds()
         //Update velocity:
         self.physicsBody!.velocity = self.physicsBody!.velocity + acceleration
         //Cap the velocity:
         self.physicsBody!.velocity.limit(mag: maxSpeed)
         //Set leading node's position:
-        leadingNode.position = self.presentation.position + self.physicsBody!.velocity
+        leadingNode.position = (self.presentation.position + self.physicsBody!.velocity) * 0.5 //Scale down
+        self.constraints = [leadingConstraints]
         //Reset acceleraion:
         acceleration = acceleration * 0.0
+    }
+    
+    func bounds(){
+        print(self.presentation.position)
     }
     
     //Returns a seek to target vector
@@ -187,12 +194,14 @@ class Minnow: SCNNode {
     
     func cohesion (neighbors: [Minnow]) -> SCNVector3{
         
-      let neighborDist: Float = 50.0
+      let neighborDist: Float = 500.0
+        
       var sum = SCNVector3Make(0.0, 0.0, 0.0)
         var count: Float = 0.0
       for minnow in neighbors {
         
-        let dist = self.presentation.position.distance(toVector: minnow.presentation.position)
+        let dist = self.presentation.position.distance(toVector: minnow.presentation.position) * 100.0
+        
         if ((dist > 0) && (dist < neighborDist)) {
             
           sum += minnow.presentation.position
@@ -213,13 +222,14 @@ class Minnow: SCNNode {
       var sep = separate(neighbors: minnows)  // Separation
       var ali = align(neighbors: minnows)     // Alignment
       var coh = cohesion(neighbors: minnows)  // Cohesion
-      // Arbitrarily weight these forces
-      sep *= 1.5
-      ali *= 1.0
-      coh *= 1.0
+        
+      // Weight these forces
+        //sep *= 0.3
+        ali *= 0.3
+        //coh *= 0.3
       // Add the force vectors to acceleration
-      //applyForce(force: sep);
-      //applyForce(force: ali);
-      //applyForce(force: coh);
+      applyForce(force: sep);
+      applyForce(force: ali);
+      applyForce(force: coh);
     }
 }
