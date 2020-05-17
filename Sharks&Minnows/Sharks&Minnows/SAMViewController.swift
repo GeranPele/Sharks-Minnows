@@ -13,7 +13,7 @@ import ARKit
 //Orientation
 //Sometimes collide through the walls work on collisions (margin, threshold)
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class SAMViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     
@@ -31,7 +31,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addTapGestureToSceneView()
+        //addTapGestureToSceneView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,7 +101,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         updateARSurfacePlane(node: node, anchor: anchor)
     }
     
-    
+    /*
     @objc func addTankToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer) {
         
         let tapLocation = recognizer.location(in: sceneView)
@@ -116,9 +116,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func addTapGestureToSceneView() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addTankToSceneView(withGestureRecognizer:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SAMViewController.addTankToSceneView(withGestureRecognizer:)))
         sceneView.addGestureRecognizer(tapGestureRecognizer)
     }
+    */
     
     func generateARSurfacePlane(planeAnchor: ARPlaneAnchor) -> SCNNode{
  
@@ -128,7 +129,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let plane = SCNPlane(width: width, height: height)
         
         //Transparent gray
-        plane.materials.first?.diffuse.contents = UIColor.init(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.3)
+        plane.materials.first?.diffuse.contents = UIColor.init(red: 1.0, green: 0.1, blue: 0.1, alpha: 0.8)
         
         //Create a node for the plane using the geometry we created
         let planeNode = SCNNode(geometry: plane)

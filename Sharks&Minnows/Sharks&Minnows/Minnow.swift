@@ -55,7 +55,7 @@ class Minnow: SCNNode {
         }
         
         let sphere = SCNSphere(radius: 0.01)
-        leadingNode.geometry = sphere
+        //leadingNode.geometry = sphere
         //leadingNode.position = (self.presentation.position + self.physicsBody!.velocity) * 0.025
         leadingNode.name = "leadingNode"
         self.addChildNode(leadingNode)
