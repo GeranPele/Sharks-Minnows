@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Sharks and Minnows 3D-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="SAMViewController" customModule="Sharks_Minnows" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Sharks and Minnows 3D" id="BV1-FR-VrT" customClass="SAMViewController" customModule="Sharks_Minnows" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U0K-SW-4ec">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -28,7 +28,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="Re2-OR-iYo"/>
+                    <tabBarItem key="tabBarItem" title="SAM" image="camera" catalog="system" id="Re2-OR-iYo"/>
                     <connections>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
                     </connections>
@@ -37,19 +37,16 @@
             </objects>
             <point key="canvasLocation" x="47.826086956521742" y="2.6785714285714284"/>
         </scene>
-        <!--Item-->
+        <!--What Is Sharks and Minnows 3D?-->
         <scene sceneID="YOC-06-oM4">
             <objects>
-                <viewController id="Prs-Ue-L6U" sceneMemberID="viewController">
+                <viewController title="What Is Sharks and Minnows 3D?" id="Prs-Ue-L6U" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aPj-bS-8lF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WHAT / WHY IS THIS APPLICATION?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="46x-dW-Ml6">
-                                <rect key="frame" x="66.5" y="403" width="281" height="90"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="d8v-gg-Xh0"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="What is Sharks and Minnows 3D?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="46x-dW-Ml6">
+                                <rect key="frame" x="67" y="44" width="281" height="90"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -57,21 +54,23 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="46x-dW-Ml6" firstAttribute="top" secondItem="cwJ-Zl-ke8" secondAttribute="top" constant="359" id="kKs-aF-8sR"/>
-                            <constraint firstItem="46x-dW-Ml6" firstAttribute="centerX" secondItem="aPj-bS-8lF" secondAttribute="centerX" id="seF-SW-jbd"/>
+                            <constraint firstItem="46x-dW-Ml6" firstAttribute="centerX" secondItem="aPj-bS-8lF" secondAttribute="centerX" id="1OG-ZJ-9LK"/>
+                            <constraint firstItem="46x-dW-Ml6" firstAttribute="leading" secondItem="cwJ-Zl-ke8" secondAttribute="leading" constant="67" id="XfJ-QC-UWU"/>
+                            <constraint firstItem="46x-dW-Ml6" firstAttribute="top" secondItem="cwJ-Zl-ke8" secondAttribute="top" id="mMC-5j-I7W"/>
+                            <constraint firstItem="cwJ-Zl-ke8" firstAttribute="bottom" secondItem="46x-dW-Ml6" secondAttribute="bottom" constant="679" id="qTf-Kw-buj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cwJ-Zl-ke8"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="GvE-lj-7ut"/>
+                    <tabBarItem key="tabBarItem" title="Description" image="doc.plaintext" catalog="system" id="GvE-lj-7ut"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwo-eK-OJS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1291" y="-816"/>
         </scene>
-        <!--Item 2-->
+        <!--Instructions-->
         <scene sceneID="f1e-0I-Mg0">
             <objects>
-                <viewController id="mPL-KM-6ui" sceneMemberID="viewController">
+                <viewController title="Instructions" id="mPL-KM-6ui" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3zk-Io-cn8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -93,38 +92,54 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GMn-6g-nT5"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="RnK-C5-wrp"/>
+                    <tabBarItem key="tabBarItem" title="Instructions" image="exclamationmark.square" catalog="system" id="RnK-C5-wrp"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLD-Ke-v1t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1291" y="718"/>
         </scene>
-        <!--Item 1-->
+        <!--Main Menu-->
         <scene sceneID="KWE-gk-Sj1">
             <objects>
-                <viewController id="Tll-KI-8OV" sceneMemberID="viewController">
+                <viewController title="Main Menu" modalTransitionStyle="partialCurl" id="Tll-KI-8OV" customClass="MainMenuViewController" customModule="Sharks_Minnows" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V9n-L0-ox8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MAIN MENU" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJ9-kA-J7D">
-                                <rect key="frame" x="159.5" y="403" width="95" height="90"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="An Adaptation of Craig Reynolds' Boids Algorithm" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cz0-8M-ex7">
+                                <rect key="frame" x="49" y="206" width="316" height="119"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="cny-Oq-zMr"/>
+                                    <constraint firstAttribute="height" constant="119" id="NIU-PY-1dV"/>
+                                    <constraint firstAttribute="width" constant="316" id="kUc-O9-Ytr"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sharks and Minnows 3D" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="coq-Nb-pLN">
+                                <rect key="frame" x="36" y="105" width="342" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="hYk-7e-K3l"/>
+                                    <constraint firstAttribute="width" constant="342" id="kkP-hZ-KUd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="yJ9-kA-J7D" firstAttribute="top" secondItem="LWy-YE-1l9" secondAttribute="top" constant="359" id="R77-7c-PtP"/>
-                            <constraint firstItem="yJ9-kA-J7D" firstAttribute="centerX" secondItem="V9n-L0-ox8" secondAttribute="centerX" id="vOo-mb-WdL"/>
+                            <constraint firstItem="coq-Nb-pLN" firstAttribute="centerX" secondItem="V9n-L0-ox8" secondAttribute="centerX" id="0S9-Me-Obw"/>
+                            <constraint firstItem="coq-Nb-pLN" firstAttribute="top" secondItem="LWy-YE-1l9" secondAttribute="top" constant="61" id="fqe-ks-QEE"/>
+                            <constraint firstItem="Cz0-8M-ex7" firstAttribute="centerX" secondItem="V9n-L0-ox8" secondAttribute="centerX" id="rUg-ZG-JZ3"/>
+                            <constraint firstItem="Cz0-8M-ex7" firstAttribute="top" secondItem="coq-Nb-pLN" secondAttribute="bottom" constant="69" id="vL2-xk-wj8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LWy-YE-1l9"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="zQl-1A-4Po"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="zQl-1A-4Po"/>
+                    <connections>
+                        <outlet property="titleLabel" destination="coq-Nb-pLN" id="fbH-PF-9Mb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X7f-Rd-qYp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -141,9 +156,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="Tll-KI-8OV" kind="relationship" relationship="viewControllers" id="tz9-7X-oAU"/>
+                        <segue destination="Prs-Ue-L6U" kind="relationship" relationship="viewControllers" id="Ulj-H0-mXh"/>
                         <segue destination="mPL-KM-6ui" kind="relationship" relationship="viewControllers" id="Ki9-Ja-oyF"/>
                         <segue destination="BV1-FR-VrT" kind="relationship" relationship="viewControllers" id="c6v-Hy-G14"/>
-                        <segue destination="Prs-Ue-L6U" kind="relationship" relationship="viewControllers" id="Ulj-H0-mXh"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tA7-Cb-HAm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -151,4 +166,10 @@
             <point key="canvasLocation" x="-2599" y="3"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="camera" catalog="system" width="128" height="96"/>
+        <image name="doc.plaintext" catalog="system" width="115" height="128"/>
+        <image name="exclamationmark.square" catalog="system" width="128" height="114"/>
+        <image name="house" catalog="system" width="128" height="110"/>
+    </resources>
 </document>

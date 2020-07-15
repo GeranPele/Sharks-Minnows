@@ -9,24 +9,15 @@
 import UIKit
 import SceneKit
 
-//Tackle orientation, constraints not working or leading node position?
-//Node is backwards, export it the other way maybe?
-//Need to tackle bounds to keep minnows in the tank for better testing.
 class Minnow: SCNNode {
     
-    //Orientation Vector node.presentation.simdPosition + node.presentation.simdWorldFront
-    var leadingNode: SCNNode
     var acceleration: SCNVector3
     var maxSpeed: Float
     var maxForce: Float
-    var leadingConstraints: SCNLookAtConstraint
     
     init(origin: SCNVector3){
-        leadingNode = SCNNode()
-        leadingNode.position = origin
-        leadingConstraints = SCNLookAtConstraint(target: leadingNode)
         acceleration = SCNVector3Make(0.0, 0.0, 0.0)
-        maxSpeed = 0.1
+        maxSpeed = 0.01
         maxForce = 5.0
         
         super.init()
@@ -53,16 +44,6 @@ class Minnow: SCNNode {
                 self.name = node.name
             }
         }
-        
-        let sphere = SCNSphere(radius: 0.01)
-        //leadingNode.geometry = sphere
-        //leadingNode.position = (self.presentation.position + self.physicsBody!.velocity) * 0.025
-        leadingNode.name = "leadingNode"
-        self.addChildNode(leadingNode)
-        
-        //leadingConstraints = SCNLookAtConstraint(target: leadingNode)
-        //let upConstraints = SCNLookAtConstraint( Can we create an 'upConstraint' to keep the minnow from rolling
-        self.constraints = [leadingConstraints]
     }
     
     func run(minnows: [Minnow]){
@@ -78,49 +59,55 @@ class Minnow: SCNNode {
     }
     
     func update(){
-        bounds()
+        //bounds()
         //Update velocity:
         self.physicsBody!.velocity = self.physicsBody!.velocity + acceleration
         //Cap the velocity:
         self.physicsBody!.velocity.limit(mag: maxSpeed)
-        //Set leading node's position:
-        leadingNode.position = (self.presentation.position + self.physicsBody!.velocity) * 0.5 //Scale down
-        self.constraints = [leadingConstraints]
         //Reset acceleraion:
         acceleration = acceleration * 0.0
     }
     
     func bounds(){
-        print(self.presentation.position)
+        //print(self.presentation.position)
     }
     
     //Returns a seek to target vector
     func seek(target: SCNVector3) -> SCNVector3{
         
-        var desired = target - leadingNode.position
-        
+        var desired = target - self.presentation.position
         //desired.normalize()
         desired = desired * maxSpeed
         
         var steer: SCNVector3 = desired - self.physicsBody!.velocity
         steer.limit(mag: maxForce)
         
-        //Explicitly applying force here for testing purposes:
-        applyForce(force: steer)
+        let crossProuct = cross(SIMD3(x: self.presentation.position.x, y: self.presentation.position.y, z: self.presentation.position.z), SIMD3(x: target.x, y: target.y, z: target.z))
+        
+        var rotationAngle = SCNVector4(crossProuct.x, crossProuct.y, crossProuct.z, 0.0)
+        
+        rotationAngle.w = sqrt((self.presentation.position.length * self.presentation.position.length) * (target.length * target.length)) + dot(SIMD3(x: self.presentation.position.x, y: self.presentation.position.y, z: self.presentation.position.z), SIMD3(x: target.x, y: target.y, z: target.z))
+        
+        let rotate = SCNAction.rotate(toAxisAngle: rotationAngle, duration: 0.01)
+        let moveTowards = SCNAction.move(by: steer, duration: 0.01)
+        let sequence = SCNAction.sequence([moveTowards, rotate])
+        
+        self.runAction(sequence)
+        
         return steer
     }
     
     //Returns a flee from target vector
     func flee(target: SCNVector3) -> SCNVector3{
         
-        var desired = leadingNode.position - target
+        var desired = self.presentation.position - target
         desired = desired * maxSpeed
         
         var steer: SCNVector3 = desired - self.physicsBody!.velocity
         steer.limit(mag: maxForce)
         
         //Explicitly applying force here for testing purposes:
-        applyForce(force: steer)
+        //applyForce(force: steer)
         return steer
     }
     
@@ -217,16 +204,15 @@ class Minnow: SCNNode {
       }
     }
     
-    // We accumulate a new acceleration each time based on three rules
     func  flock(minnows: [Minnow]) {
       var sep = separate(neighbors: minnows)  // Separation
       var ali = align(neighbors: minnows)     // Alignment
       var coh = cohesion(neighbors: minnows)  // Cohesion
         
       // Weight these forces
-        //sep *= 0.3
+        sep *= 0.3
         ali *= 0.3
-        //coh *= 0.3
+        coh *= 0.3
       // Add the force vectors to acceleration
       applyForce(force: sep);
       applyForce(force: ali);
