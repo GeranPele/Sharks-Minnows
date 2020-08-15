@@ -13,7 +13,6 @@
 		510591BB22EE31D000CAF1BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 510591BA22EE31D000CAF1BB /* Assets.xcassets */; };
 		510591BE22EE31D000CAF1BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 510591BC22EE31D000CAF1BB /* LaunchScreen.storyboard */; };
 		5150011522EFA7DE00A181A6 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5150011422EFA7DE00A181A6 /* SCNVector3+Extensions.swift */; };
-		5181249A22EE51CE00DBE339 /* Minnow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5181249922EE51CE00DBE339 /* Minnow.swift */; };
 		519A7D052470AD8D00C8BB09 /* SAMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519A7D042470AD8D00C8BB09 /* SAMViewController.swift */; };
 		51B26CCB2470F5DD004461F7 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B26CCA2470F5DD004461F7 /* MainMenuViewController.swift */; };
 /* End PBXBuildFile section */
@@ -27,7 +26,6 @@
 		510591BD22EE31D000CAF1BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		510591BF22EE31D000CAF1BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5150011422EFA7DE00A181A6 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
-		5181249922EE51CE00DBE339 /* Minnow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minnow.swift; sourceTree = "<group>"; };
 		519A7D042470AD8D00C8BB09 /* SAMViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SAMViewController.swift; sourceTree = "<group>"; };
 		51B26CCA2470F5DD004461F7 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,7 +69,6 @@
 				510591BA22EE31D000CAF1BB /* Assets.xcassets */,
 				510591BC22EE31D000CAF1BB /* LaunchScreen.storyboard */,
 				510591BF22EE31D000CAF1BB /* Info.plist */,
-				5181249922EE51CE00DBE339 /* Minnow.swift */,
 			);
 			path = "Sharks&Minnows";
 			sourceTree = "<group>";
@@ -150,7 +147,6 @@
 			files = (
 				510591B222EE31CF00CAF1BB /* AppDelegate.swift in Sources */,
 				51B26CCB2470F5DD004461F7 /* MainMenuViewController.swift in Sources */,
-				5181249A22EE51CE00DBE339 /* Minnow.swift in Sources */,
 				519A7D052470AD8D00C8BB09 /* SAMViewController.swift in Sources */,
 				5150011522EFA7DE00A181A6 /* SCNVector3+Extensions.swift in Sources */,
 			);

@@ -2,16 +2,13 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SAMBehaviorDemo/SAMBehaviorDemo.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:AREnvironmentDemo/AREnvironmentDemo.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Sharks&amp;Minnows/Sharks&amp;Minnows.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:PhysicsBodyTesting/PhysicsBodyTesting.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:ARKitTest/ARKitTest.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:SeekDemo/SeekDemo.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:/Volumes/TERMINUS/School/Sharks-Minnows/SCNVector3+Extensions.swift">
