@@ -102,6 +102,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         addMinnowButton.center.x = self.view.bounds.minX + 50
         addMinnowButton.frame.origin.y = 20
         addMinnowButton.addTarget(self, action: #selector(addMinnow), for: .touchUpInside)
+        addMinnowButton.tag = 10
         hud.addSubview(addMinnowButton)
         hud.backgroundColor = UIColor(ciColor: .clear)
         self.view.addSubview(hud)
@@ -110,55 +111,113 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @objc func addMinnow(sender: UIButton!) {
         print("You added a minnow!")
         
+    }
+    
+    @objc func closeMenu(sender: UIButton!){
         if let view = self.view.viewWithTag(8){
             view.removeFromSuperview()
+            addMinnowButton.backgroundColor = UIColor(ciColor: .blue)
+            addMinnowButton.sizeToFit()
+            addMinnowButton.center.x = self.view.bounds.minX + 50
+            addMinnowButton.frame.origin.y = 20
+            addMinnowButton.addTarget(self, action: #selector(addMinnow), for: .touchUpInside)
+            addMinnowButton.tag = 10
+            hud.addSubview(addMinnowButton)
             hud.backgroundColor = UIColor(ciColor: .clear)
             arSceneView.play(sender)
         }else{
-            print("do nothing")
+            print("explosion")
         }
     }
     
     @objc func openSettingsMenu(sender: UIButton!) {
+        
+        //Remove add minnow button
+        if let view = self.view.viewWithTag(10){
+            view.removeFromSuperview()
+        }
+        
+        let scrollContainer = UIScrollView()
+        scrollContainer.tag = 8
+        hud.addSubview(scrollContainer)
+        
+        scrollContainer.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollContainer.centerYAnchor.constraint(equalTo: hud.centerYAnchor),
+            scrollContainer.centerXAnchor.constraint(equalTo: hud.centerXAnchor),
+            scrollContainer.widthAnchor.constraint(equalToConstant: hud.bounds.maxX * 0.75),
+            scrollContainer.heightAnchor.constraint(equalToConstant: hud.bounds.maxY * 0.75)
+        ])
+        
+        //Create the close menu button
+        let closeMenuButton = UIButton()
+        closeMenuButton.backgroundColor = UIColor(ciColor: .red)
+        closeMenuButton.sizeToFit()
+        closeMenuButton.center.x = self.view.bounds.minX + 50
+        closeMenuButton.frame.origin.y = 20
+        closeMenuButton.addTarget(self, action: #selector(closeMenu), for: .touchUpInside)
+        closeMenuButton.tag = 11
+        hud.addSubview(closeMenuButton)
 
         let menu = UIStackView()
+        scrollContainer.addSubview(menu)
+        
         menu.axis = .vertical
         menu.distribution = .fillEqually
-        menu.alignment = .fill
+        menu.alignment = .leading
         menu.spacing = 10
         menu.translatesAutoresizingMaskIntoConstraints = false
-        menu.tag = 8
         
         labelZ.text = "Rotate In Z Axis: \(sliderZ.value * 100.0)"
-        sliderZ.sizeToFit()
         sliderZ.minimumValue = 0.0
         sliderZ.maximumValue = 0.05
         sliderZ.addTarget(self, action: #selector(rotateShipZ), for: .allEvents)
         
         labelX.text = "Rotate In X Axis: \(sliderX.value * 100.0)"
-        sliderX.sizeToFit()
         sliderX.minimumValue = 0.0
         sliderX.maximumValue = 0.05
         sliderX.addTarget(self, action: #selector(rotateShipX), for: .allEvents)
         
         labelY.text = "Rotate In Y Axis: \(sliderY.value * 100.0)"
-        sliderY.sizeToFit()
         sliderY.minimumValue = 0.0
         sliderY.maximumValue = 0.05
         sliderY.addTarget(self, action: #selector(rotateShipY), for: .allEvents)
         
-        menu.insertArrangedSubview(labelX, at: 0)
-        menu.insertArrangedSubview(sliderX, at: 1)
-        menu.insertArrangedSubview(labelY, at: 2)
-        menu.insertArrangedSubview(sliderY, at: 3)
-        menu.insertArrangedSubview(labelZ, at: 4)
-        menu.insertArrangedSubview(sliderZ, at: 5)
-        menu.backgroundColor = UIColor(ciColor: .red)
+        menu.addArrangedSubview(labelX)
+        menu.addArrangedSubview(sliderX)
+        menu.addArrangedSubview(labelY)
+        menu.addArrangedSubview(sliderY)
+        menu.addArrangedSubview(labelZ)
+        menu.addArrangedSubview(sliderZ)
         
-        hud.addSubview(menu)
-        menu.widthAnchor.constraint(equalToConstant: self.view.bounds.maxX * 0.5).isActive = true
-        menu.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        menu.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        sliderX.widthAnchor.constraint(equalTo: menu.widthAnchor).isActive = true
+        sliderY.widthAnchor.constraint(equalTo: menu.widthAnchor).isActive = true
+        sliderZ.widthAnchor.constraint(equalTo: menu.widthAnchor).isActive = true
+        
+        for x in 0...9{
+            let button = UIButton()
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.backgroundColor = UIColor.green
+            
+            menu.addArrangedSubview(button)
+            
+            NSLayoutConstraint.activate([
+                button.heightAnchor.constraint(equalToConstant: 40.0),
+                button.leadingAnchor.constraint(equalTo: menu.leadingAnchor),
+                button.widthAnchor.constraint(equalToConstant: 200.0)
+            ])
+            
+            button.setTitle("Test Button: \(x)", for: .normal)
+        }
+        
+        scrollContainer.bottomAnchor.constraint(equalTo: menu.bottomAnchor).isActive = true
+        
+        menu.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor).isActive = true
+        menu.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor).isActive = true
+        menu.topAnchor.constraint(equalTo: scrollContainer.topAnchor).isActive = true
+        menu.bottomAnchor.constraint(equalTo: scrollContainer.bottomAnchor).isActive = true
+        menu.widthAnchor.constraint(equalTo: scrollContainer.widthAnchor).isActive = true
+        
         
         hud.backgroundColor = UIColor(displayP3Red: 0.5, green: 0.5, blue: 0.5, alpha: 0.9)
         arSceneView.pause(sender)
