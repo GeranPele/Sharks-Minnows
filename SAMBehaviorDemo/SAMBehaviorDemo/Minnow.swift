@@ -19,12 +19,13 @@ class Minnow: SCNNode {
     var maxForce: Float = 0.05
     var fleeCount: Int = 0
     var wall: Float = 7.0
+    var fishColor = UIColor()
     //Add mass later
     
     //Default constructor
     override init() {
         acceleration = SCNVector3Make(0, 0, 0)
-        
+        fishColor = UIColor(displayP3Red: CGFloat.random(in: 0..<1), green: CGFloat(Float.random(in: 0..<1)), blue: CGFloat(Float.random(in: 0..<1)), alpha: CGFloat.random(in: 0..<1))
         super.init()
         loadGeometry()
         self.position = SCNVector3Make(0, 0, 0)
@@ -33,7 +34,7 @@ class Minnow: SCNNode {
     //Preferred constructor
      init(origin: SCNVector3) {
         acceleration = SCNVector3Make(0, 0, 0)
-        
+        fishColor = UIColor(displayP3Red: CGFloat.random(in: 0..<1), green: CGFloat(Float.random(in: 0..<1)), blue: CGFloat(Float.random(in: 0..<1)), alpha: 1.0)
         super.init()
         loadGeometry()
         self.position = origin
@@ -54,7 +55,7 @@ class Minnow: SCNNode {
         self.physicsBody?.isAffectedByGravity = false
         //Need to initialize a starting velocity or nothing happens
         self.physicsBody?.velocity = SCNVector3(0.0,0.0,0.1)
-        self.geometry?.materials.first?.diffuse.contents = UIColor(ciColor: .green)
+        self.geometry?.materials.first?.diffuse.contents = fishColor
     }
     
     func update(){
@@ -82,7 +83,7 @@ class Minnow: SCNNode {
             fleeCount -= 1
             self.geometry?.materials.first?.diffuse.contents = UIColor(ciColor: .red)
         }else{
-            self.geometry?.materials.first?.diffuse.contents = UIColor(ciColor: .green)
+            self.geometry?.materials.first?.diffuse.contents = fishColor
         }
     }
     

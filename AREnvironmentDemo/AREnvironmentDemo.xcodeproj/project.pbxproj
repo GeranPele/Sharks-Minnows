@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		510E382B24F8568B00ACE2C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 510E382A24F8568B00ACE2C2 /* Images.xcassets */; };
 		5110BB9D24DC863E000227A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5110BB9C24DC863E000227A7 /* AppDelegate.swift */; };
 		5110BB9F24DC863E000227A7 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 5110BB9E24DC863E000227A7 /* art.scnassets */; };
 		5110BBA124DC863E000227A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5110BBA024DC863E000227A7 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		510E382A24F8568B00ACE2C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5110BB9924DC863D000227A7 /* AREnvironmentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AREnvironmentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5110BB9C24DC863E000227A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5110BB9E24DC863E000227A7 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				5110BBA024DC863E000227A7 /* ViewController.swift */,
 				5110BBA224DC863E000227A7 /* Main.storyboard */,
 				5110BBA524DC863E000227A7 /* Assets.xcassets */,
+				510E382A24F8568B00ACE2C2 /* Images.xcassets */,
 				5110BBA724DC863E000227A7 /* LaunchScreen.storyboard */,
 				5110BBAA24DC863E000227A7 /* Info.plist */,
 			);
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5110BB9F24DC863E000227A7 /* art.scnassets in Resources */,
+				510E382B24F8568B00ACE2C2 /* Images.xcassets in Resources */,
 				5110BBA924DC863E000227A7 /* LaunchScreen.storyboard in Resources */,
 				5110BBA624DC863E000227A7 /* Assets.xcassets in Resources */,
 				5110BBA424DC863E000227A7 /* Main.storyboard in Resources */,

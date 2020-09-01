@@ -134,8 +134,7 @@ class SAMViewController: UIViewController, ARSCNViewDelegate {
         
         let width = CGFloat(planeAnchor.extent.x)
         let height = CGFloat(planeAnchor.extent.z)
-        //baseWidth = width
-        //baseHeight = height
+
         plane.width = width
         plane.height = height
         

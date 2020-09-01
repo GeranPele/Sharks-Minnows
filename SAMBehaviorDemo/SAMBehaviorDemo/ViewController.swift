@@ -33,7 +33,7 @@ class ViewController: UIViewController, SCNSceneRendererDelegate {
         //Play with the camera
         sceneView.allowsCameraControl = true
         //Set sceneview background to blue
-        sceneView.backgroundColor = UIColor(ciColor: .blue)
+        sceneView.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.5)
         //Add the scene view to the device view hierarchy
         self.view.addSubview(sceneView)
         
@@ -82,7 +82,7 @@ class ViewController: UIViewController, SCNSceneRendererDelegate {
         floorGeo.reflectivity = 0
         let floor = SCNNode(geometry: floorGeo)
         floor.physicsBody = SCNPhysicsBody(type: .static, shape: .init(geometry: (floor.geometry)!, options: nil))
-        floor.geometry?.materials.first?.diffuse.contents = UIColor(ciColor: .blue)
+        floor.geometry?.materials.first?.diffuse.contents = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.5)
         scene.rootNode.addChildNode(floor)
         scene.rootNode.addChildNode(camera)
         //scene.rootNode.addChildNode(spotLight)
