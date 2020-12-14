@@ -87,7 +87,7 @@ class SAMViewController: UIViewController, ARSCNViewDelegate {
         guard let hitTestResult = hitTestResults.first else { return }
         let translation = hitTestResult.worldTransform.translation
         
-        let positionCenter = SCNVector3Make(translation.x, translation.y,  translation.z)
+        _ = SCNVector3Make(translation.x, translation.y,  translation.z)
         
         //Make the tank
         //createTank(origin: positionCenter, width: baseWidth, height: baseHeight)

@@ -72,7 +72,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = .horizontal
-        arSceneView.debugOptions = [.showFeaturePoints, .showPhysicsFields, .showWorldOrigin]
+        //arSceneView.debugOptions = [.showFeaturePoints, .showPhysicsFields, .showWorldOrigin]
         // Run the view's session
         arSceneView.session.run(configuration)
     }

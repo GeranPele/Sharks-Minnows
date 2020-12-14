@@ -15,10 +15,10 @@ class Minnow: SCNNode {
     var forwardVector = SCNVector3Make(0, 0, -1)
     var neighborDistance: Float = 1.0
     var separationDistance: Float = 0.25
-    var maxSpeed: Float = 0.05
-    var maxForce: Float = 0.05
+    var maxSpeed: Float = 0.08
+    var maxForce: Float = 0.015
     var fleeCount: Int = 0
-    var wall: Float = 7.0
+    var wall: Float = 5.0
     var fishColor = UIColor()
     //Add mass later
     
@@ -55,10 +55,13 @@ class Minnow: SCNNode {
         self.physicsBody?.isAffectedByGravity = false
         //Need to initialize a starting velocity or nothing happens
         self.physicsBody?.velocity = SCNVector3(0.0,0.0,0.1)
+        
+        //self.physicsBody?.angularDamping = 1.0
         self.geometry?.materials.first?.diffuse.contents = fishColor
     }
     
     func update(){
+        
         //Add acceleration to velocity
         self.physicsBody!.velocity += acceleration
         //Limit velocity by our max speed
@@ -293,8 +296,8 @@ class Minnow: SCNNode {
         var cohesive = cohesion(Neighbors: Minnows)
         
         //Weight them
-        alignment *= 0.8
-        separation *= 0.1
+        alignment *= 0.9
+        separation *= 0.08
         cohesive *= 0.5
         
         //Apply them

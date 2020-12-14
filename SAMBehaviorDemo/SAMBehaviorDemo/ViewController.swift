@@ -33,7 +33,9 @@ class ViewController: UIViewController, SCNSceneRendererDelegate {
         //Play with the camera
         sceneView.allowsCameraControl = true
         //Set sceneview background to blue
-        sceneView.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.5)
+        sceneView.backgroundColor = UIColor(red: 0.0, green: 0.36, blue: 0.72, alpha: 0.5)
+        //Set sceneview to redraw on orientaion change
+        sceneView.contentMode = UIView.ContentMode.redraw
         //Add the scene view to the device view hierarchy
         self.view.addSubview(sceneView)
         
